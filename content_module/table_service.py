@@ -31,7 +31,8 @@ class AzureTableService(object):
     def query_moments(self, topic):
         moments = self.__table_service.query_entities(AzureTableService.moment_table_name,
             filter="PartitionKey eq '%s'" % (topic,))
-        for m in moments:
-            print(m.PartitionKey)
-            print(m.RowKey)
-            print(m.content)
+        return moments
+        # for m in moments:
+        #     print(m.PartitionKey)
+        #     print(m.RowKey)
+        #     print(m.content)

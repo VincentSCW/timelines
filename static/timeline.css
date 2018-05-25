@@ -111,6 +111,10 @@
     margin-top: 0;
     color: inherit;
   }
+  .timeline-heading > p,
+  .timeline-heading > ul {
+      padding: 20px;
+  }
   .timeline-body > p,
   .timeline-body > ul {
       padding:20px;
