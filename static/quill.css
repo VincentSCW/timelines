@@ -1,0 +1,8 @@
+.ql-container .ql-editor {
+    min-height: 200px;
+    padding-bottom: 1rem;
+}
+
+.ql-container.ql-snow {
+    width: 100%;
+}

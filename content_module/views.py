@@ -17,3 +17,6 @@ def index(request):
     
     context = {'moment_list': moment_list, 'timeline_topic': 'test_moment'}
     return render(request, 'index.html', context)
+
+def edit(request):
+    return render(request, 'edit.html')

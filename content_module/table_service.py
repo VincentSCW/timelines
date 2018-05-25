@@ -12,10 +12,10 @@ class AzureTableService(object):
 
     def create_table_if_not_exists(self, table_name):
         if self.__table_service.exists(table_name):
-            print('already')
+            print('table already exists')
         else:
             self.__table_service.create_table(table_name)
-            print('ok')
+            print('table created')
     
     def add_moment(self, topic, record_date, content):
         if not isinstance(record_date, date):
