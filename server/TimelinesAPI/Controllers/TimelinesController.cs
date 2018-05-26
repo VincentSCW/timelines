@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TimelinesAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class TimelinesController : Controller
     {
         // GET api/values
         [HttpGet]
