@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
@@ -49,9 +50,27 @@ namespace TimelinesAPI.DataVaults
             try
             {
                 var result = await table.ExecuteAsync(operation);
-                return result.HttpStatusCode == 200;
+                return result.HttpStatusCode == 204;
             }
             catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteMomentAsync(string partitionKey, string rowKey)
+        {
+            var table = await CreateTableAsync(MOMENT_TABLE_NAME);
+            var retriveOpt = TableOperation.Retrieve<MomentEntity>(partitionKey, rowKey);
+            var retriveResult = await table.ExecuteAsync(retriveOpt);
+
+            if (retriveResult.Result is MomentEntity entity)
+            {
+                var deleteOpt = TableOperation.Delete(entity);
+                var result = await table.ExecuteAsync(deleteOpt);
+                return result.HttpStatusCode == 204;
+            }
+            else
             {
                 return false;
             }

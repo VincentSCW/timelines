@@ -8,10 +8,11 @@ namespace TimelinesAPI.DataVaults
 {
     public class MomentEntity : TableEntity
     {
-        public MomentEntity(string topic, DateTime recordDate)
+        public static string DateFormat = "yyyy-MM-dd";
+
+        public MomentEntity(string topic, string recordDate)
+            : base(topic, recordDate)
         {
-            PartitionKey = topic;
-            RowKey = recordDate.ToShortDateString();
         }
 
         public MomentEntity() { }

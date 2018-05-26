@@ -31,8 +31,22 @@ namespace TimelinesAPI.Controllers
         {
             var succeed =
                 await _tableStorage.InsertOrReplaceMomentAsync(
-                    new MomentEntity(model.Topic, DateTime.Parse(model.RecordDate)) {Content = model.Content});
+                    new MomentEntity(model.Topic, DateTime.Parse(model.RecordDate).ToString(MomentEntity.DateFormat))
+                    {
+                        Content = model.Content
+                    });
 
+            if (succeed)
+                return NoContent();
+            else
+                return BadRequest();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteMoment([FromQuery] string topic, [FromQuery] string date)
+        {
+            var succeed =
+                await _tableStorage.DeleteMomentAsync(topic, DateTime.Parse(date).ToString(MomentEntity.DateFormat));
             if (succeed)
                 return NoContent();
             else
