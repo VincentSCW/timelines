@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Moment } from '../models/moment.model';
 import { TimelineService } from '../services/timeline.service';
 
@@ -10,11 +10,11 @@ import { TimelineService } from '../services/timeline.service';
 })
 
 export class MomentEditorComponent implements OnInit {
-    @Input() data: Moment;
-
     model: Moment = { topicKey: 'EF', recordDate: new Date() };
 
-    constructor(private dialogRef: MatDialogRef<MomentEditorComponent>,
+    constructor(
+        @Inject(MAT_DIALOG_DATA) public data: Moment,
+        private dialogRef: MatDialogRef<MomentEditorComponent>,
         private service: TimelineService) {
 
     }

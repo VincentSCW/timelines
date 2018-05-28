@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { MatDialog } from '@angular/material';
 
 import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
+import { MomentEditorComponent } from './moment-editor.component';
 
 @Component({
   selector: 'app-timeline',
@@ -15,7 +17,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   moments$: Observable<Moment[]>;
   private momentsSubscription: Subscription;
 
-  constructor(private timelineService: TimelineService) { 
+  constructor(private timelineService: TimelineService, private dialog: MatDialog) { 
     this.groupedMoments = new Array();
   }
 
@@ -37,5 +39,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (!!this.momentsSubscription) { this.momentsSubscription.unsubscribe(); }
+  }
+
+  onEdit(moment: Moment) {
+    this.dialog.open(MomentEditorComponent, {data: moment});
+  }
+
+  onDelete(moment: Moment) {
+    this.timelineService.deleteMoment(moment.topicKey, moment.recordDate).toPromise();
   }
 }

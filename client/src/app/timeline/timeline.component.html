@@ -7,6 +7,21 @@
     <div class="timeline-content">
       <p class="heading">{{moment.recordDate | date: 'MMMM dd'}}</p>
       <p [innerHTML]="moment.content"></p>
+      <div class="level is-mobile action-bar">
+        <div class="level-left"></div>
+        <div class="level-right">
+          <a matTooltip="Edit" class="level-item" (click)="onEdit(moment)">
+            <span class="icon is-small">
+              <i class="fa fa-edit"></i>
+            </span>
+          </a>
+          <a matTooltip="Delete" class="level-item" (click)="onDelete(moment)">
+            <span class="icon is-small">
+              <i class="fa fa-trash-alt"></i>
+            </span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
