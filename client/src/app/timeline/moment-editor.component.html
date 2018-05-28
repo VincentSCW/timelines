@@ -1,0 +1,11 @@
+<form name="form">
+    <div class="field">
+        <div class="control">
+            <mat-form-field>
+                <input matInput required name="recordDate" placeholder="Record Date" [matDatepicker]="myDatepicker">
+                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+</form>
