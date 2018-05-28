@@ -8,8 +8,7 @@ import { Moment, GroupedMoments } from '../models/moment.model';
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css'],
-  providers: [TimelineService]
+  styleUrls: ['./timeline.component.css']
 })
 export class TimelineComponent implements OnInit, OnDestroy {
   groupedMoments: GroupedMoments[];
@@ -21,7 +20,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.moments$ = this.timelineService.getMoments('test_moment');
+    this.moments$ = this.timelineService.getMoments('EF');
     this.momentsSubscription = this.moments$.subscribe(x => {
       x.map((m) => {
         const date = new Date(m.recordDate);

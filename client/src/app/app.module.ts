@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
 import { TopBarComponent } from './top-bar.component';
+import { TimelineService } from './services/timeline.service';
 
 
 @NgModule({
@@ -33,7 +34,9 @@ import { TopBarComponent } from './top-bar.component';
   exports: [
     MaterialModule
   ],
-  providers: [],
+  providers: [
+    TimelineService
+  ],
   entryComponents: [
     MomentEditorComponent
   ],

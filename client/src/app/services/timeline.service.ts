@@ -15,4 +15,12 @@ export class TimelineService {
     getMoments(topic: string): Observable<Moment[]> {
         return this.http.get<Moment[]>(`${this.baseUrl}/api/Moments?timeline=${topic}`);
     }
+
+    insertOrReplaceMoment(moment: Moment): Observable<Moment> {
+        return this.http.post<Moment>(`${this.baseUrl}/api/Moments`, moment);
+    }
+
+    deleteMoment(topic: string, date: Date): Observable<{}> {
+        return this.http.delete(`${this.baseUrl}/api/Moments?topic=${topic}&date=${date.toDateString()}`)
+    }
 }

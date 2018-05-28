@@ -23,21 +23,23 @@ namespace TimelinesAPI.Controllers
         {
             var moments = await _tableStorage.GetMomentsAsync(timeline);
             return Ok(moments.Select(x =>
-                new MomentModel {Topic = x.PartitionKey, RecordDate = x.RowKey, Content = x.Content}));
+                new MomentModel {TopicKey = x.PartitionKey, RecordDate = x.RowKey, Content = x.Content}));
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(MomentModel), 200)]
         public async Task<IActionResult> AddOrUpdateMoment([FromBody] MomentModel model)
         {
+            var entity = new MomentEntity(model.TopicKey,
+                DateTime.Parse(model.RecordDate).ToString(MomentEntity.DateFormat))
+            {
+                Content = model.Content
+            };
             var succeed =
-                await _tableStorage.InsertOrReplaceMomentAsync(
-                    new MomentEntity(model.Topic, DateTime.Parse(model.RecordDate).ToString(MomentEntity.DateFormat))
-                    {
-                        Content = model.Content
-                    });
+                await _tableStorage.InsertOrReplaceMomentAsync(entity);
 
             if (succeed)
-                return NoContent();
+                return Ok(new MomentModel{TopicKey = entity.PartitionKey, RecordDate = entity.RowKey, Content = entity.Content});
             else
                 return BadRequest();
         }

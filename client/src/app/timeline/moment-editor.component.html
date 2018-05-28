@@ -1,5 +1,6 @@
 <div class="center-dialog">
-    <form name="form">
+    <form name="form" #form="ngForm">
+        <input hidden name="topicKey" [(ngModel)]="model.topicKey">
         <div class="field">
             <div class="control">
                 <mat-form-field>
@@ -14,6 +15,6 @@
                 <app-ngx-editor name="content" required placeholder="'Enter text here...'" [spellcheck]="true" [(ngModel)]="model.content"></app-ngx-editor>
             </div>
         </div>
-        <button-group (submit)="onSubmit(form.value)" (cancel)="onCancel()" [isValid]="true"></button-group>
+        <button-group (submit)="onSubmit(form.value)" (cancel)="onCancel()" [isValid]="form.valid"></button-group>
     </form>
 </div>

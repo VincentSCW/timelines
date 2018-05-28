@@ -1,5 +1,5 @@
 export interface Moment {
-    topic: string;
+    topicKey: string;
     recordDate: Date;
     content?: string;
 }

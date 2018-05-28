@@ -7,7 +7,7 @@ namespace TimelinesAPI.Models
 {
     public class MomentModel
     {
-        public string Topic { get; set; }
+        public string TopicKey { get; set; }
         public string RecordDate { get; set; }
         public string Content { get; set; }
     }

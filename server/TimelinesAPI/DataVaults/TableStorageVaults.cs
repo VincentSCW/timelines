@@ -12,7 +12,7 @@ namespace TimelinesAPI.DataVaults
 {
     public class TableStorageVaults
     {
-        public const string MOMENT_TABLE_NAME = "moment";
+        public const string MOMENT_TABLE_NAME = "moments";
 
         private readonly StorageAccountSettings _settings;
         public TableStorageVaults(IOptions<StorageAccountSettings> settings)
