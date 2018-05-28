@@ -6,11 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEditorModule } from 'ngx-editor';
 
 import { MaterialModule } from './material.module';
+import { ControlsModule } from './controls/controls.module';
 
 import { AppComponent } from './app.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
 import { TopBarComponent } from './top-bar.component';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { TopBarComponent } from './top-bar.component';
     HttpClientModule,
     MaterialModule,
     BrowserAnimationsModule,
-    NgxEditorModule
+    NgxEditorModule,
+    ControlsModule
   ],
   exports: [
     MaterialModule
