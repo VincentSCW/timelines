@@ -2,10 +2,15 @@
     <div class="field">
         <div class="control">
             <mat-form-field>
-                <input matInput required name="recordDate" placeholder="Record Date" [matDatepicker]="myDatepicker">
+                <input matInput required name="recordDate" [(ngModel)]="recordDate" placeholder="Record Date" [matDatepicker]="myDatepicker">
                 <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
                 <mat-datepicker #myDatepicker></mat-datepicker>
             </mat-form-field>
+        </div>
+    </div>
+    <div class="field">
+        <div class="control">
+            <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="htmlContent"></app-ngx-editor>
         </div>
     </div>
 </form>

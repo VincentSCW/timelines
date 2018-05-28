@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxEditorModule } from 'ngx-editor';
 
 import { MaterialModule } from './material.module';
 
@@ -19,9 +21,11 @@ import { TopBarComponent } from './top-bar.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxEditorModule
   ],
   exports: [
     MaterialModule
