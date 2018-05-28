@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -11,7 +11,7 @@ import { Moment, GroupedMoments } from '../models/moment.model';
   styleUrls: ['./timeline.component.css'],
   providers: [TimelineService]
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit, OnDestroy {
   groupedMoments: GroupedMoments[];
   moments$: Observable<Moment[]>;
   private momentsSubscription: Subscription;
@@ -36,4 +36,7 @@ export class TimelineComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (!!this.momentsSubscription) { this.momentsSubscription.unsubscribe(); }
+  }
 }
