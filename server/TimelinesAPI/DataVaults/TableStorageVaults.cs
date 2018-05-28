@@ -53,7 +53,7 @@ namespace TimelinesAPI.DataVaults
             try
             {
                 var result = await table.ExecuteAsync(operation);
-                _cacheService.RemoveFromCache(entity.PartitionKey);
+                //_cacheService.RemoveFromCache(entity.PartitionKey);
                 return result.HttpStatusCode == 204;
             }
             catch (Exception e)
@@ -72,7 +72,7 @@ namespace TimelinesAPI.DataVaults
             {
                 var deleteOpt = TableOperation.Delete(entity);
                 var result = await table.ExecuteAsync(deleteOpt);
-                _cacheService.RemoveFromCache(partitionKey);
+                //_cacheService.RemoveFromCache(partitionKey);
                 return result.HttpStatusCode == 204;
             }
             else
@@ -83,8 +83,8 @@ namespace TimelinesAPI.DataVaults
 
         public async Task<List<MomentEntity>> GetMomentsAsync(string topic)
         {
-            if (_cacheService.TryGetFromCache(topic, out List<MomentEntity> value))
-                return value;
+            //if (_cacheService.TryGetFromCache(topic, out List<MomentEntity> value))
+            //    return value;
 
             var tableClient = GetAccount().CreateCloudTableClient();
             var table = tableClient.GetTableReference(MOMENT_TABLE_NAME);
@@ -100,7 +100,7 @@ namespace TimelinesAPI.DataVaults
                 list.AddRange(results);
             } while (token != null);
 
-            _cacheService.StoreInCache(topic, list);
+            //_cacheService.StoreInCache(topic, list);
             return list;
         }
     }
