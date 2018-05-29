@@ -17,11 +17,14 @@ import { environment } from '../../environments/environment';
 export class TimelineComponent implements OnInit, OnDestroy {
   groupedMoments: GroupedMoments[];
   moments$: Observable<Moment[]>;
+  loaded: boolean;
   editable = environment.editable;
+
   private momentsSubscription: Subscription;
 
   constructor(private timelineService: TimelineService, private dialog: MatDialog) { 
     this.groupedMoments = new Array();
+    this.loaded = false;
   }
 
   ngOnInit() {
@@ -37,6 +40,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
           grouped.moments.push(m);
         }
       });
+      this.loaded = true;
     });
   }
 
