@@ -7,6 +7,8 @@ import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
 import { MomentEditorComponent } from './moment-editor.component';
 
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
@@ -15,6 +17,7 @@ import { MomentEditorComponent } from './moment-editor.component';
 export class TimelineComponent implements OnInit, OnDestroy {
   groupedMoments: GroupedMoments[];
   moments$: Observable<Moment[]>;
+  editable = environment.editable;
   private momentsSubscription: Subscription;
 
   constructor(private timelineService: TimelineService, private dialog: MatDialog) { 

@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiServerUrl: 'https://timelines.chinacloudsites.cn'
+  apiServerUrl: 'https://timelines.chinacloudsites.cn',
+  editable: false
 };
