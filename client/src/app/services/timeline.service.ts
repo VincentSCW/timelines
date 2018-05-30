@@ -21,6 +21,6 @@ export class TimelineService {
     }
 
     deleteMoment(topic: string, date: Date): Observable<{}> {
-        return this.http.delete(`${this.baseUrl}/api/Moments?topic=${topic}&date=${date.toDateString()}`)
+        return this.http.delete(`${this.baseUrl}/api/Moments?topic=${topic}&date=${date}`)
     }
 }
