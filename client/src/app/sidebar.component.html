@@ -1,0 +1,11 @@
+<aside class="menu">
+  <p class="menu-label">
+    时间轴
+  </p>
+  <ul *ngFor="let item of timelines$ | async" class="menu-list">
+    <a>{{item.title}}</a>
+  </ul>
+  <p class="menu-label">
+    管理
+  </p>
+</aside>
