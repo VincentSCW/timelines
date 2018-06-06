@@ -11,7 +11,8 @@ import { ControlsModule } from './controls/controls.module';
 import { AppComponent } from './app.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
-import { TopBarComponent } from './top-bar.component';
+import { NavbarComponent } from './navbar.component';
+import { SidebarComponent } from './sidebar.component';
 import { TimelineService } from './services/timeline.service';
 
 
@@ -20,7 +21,8 @@ import { TimelineService } from './services/timeline.service';
     AppComponent,
     TimelineComponent,
     MomentEditorComponent,
-    TopBarComponent
+    NavbarComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

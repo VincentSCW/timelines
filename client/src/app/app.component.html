@@ -1,4 +1,11 @@
-<app-top-bar></app-top-bar>
+<app-navbar (toggleSidenav)="sidenav.toggle()"></app-navbar>
 <div class="container main">
-    <app-timeline></app-timeline>
+	<mat-sidenav-container>
+		<mat-sidenav #sidenav mode="side" opened="opened" class="sidenav-container">
+			<app-sidebar></app-sidebar>
+		</mat-sidenav>
+		<mat-sidenav-content>
+			<app-timeline></app-timeline>
+		</mat-sidenav-content>
+	</mat-sidenav-container>
 </div>

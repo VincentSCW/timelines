@@ -1,0 +1,24 @@
+<nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
+	<div class="container">
+		<div class="navbar-brand">
+			<a class="navbar-item" (click)="toggleMenu()">
+				<mat-icon>menu</mat-icon>
+			</a>
+			<div class="navbar-item">Vincent Shen's EF Moments</div>
+		</div>
+		<div class="navbar-menu">
+			<div class="navbar-start">
+
+			</div>
+
+			<div class="navbar-end">
+				<a class="navbar-item" href="https://github.com/VincentSCW/timelines">
+					<span class="icon">
+						<i class="fab fa-lg fa-github"></i>
+					</span>
+				</a>
+				<button mat-button (click)="onAddClicked()" *ngIf="editable">Add Moment</button>
+			</div>
+		</div>
+	</div>
+</nav>

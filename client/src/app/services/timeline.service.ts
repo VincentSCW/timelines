@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
 import { Moment } from '../models/moment.model';
+import { Timeline } from '../models/timeline.model';
 
 @Injectable()
 export class TimelineService {
@@ -22,5 +23,17 @@ export class TimelineService {
 
     deleteMoment(topic: string, date: Date): Observable<{}> {
         return this.http.delete(`${this.baseUrl}/api/Moments/${topic}/${date}`)
+    }
+
+    getTimelines(): Observable<Timeline[]> {
+        return this.http.get<Timeline[]>(`${this.baseUrl}/api/Timelines`);
+    }
+
+    insertOrReplaceTimeline(timeline: Timeline): Observable<Timeline> {
+        return this.http.post<Timeline>(`${this.baseUrl}/api/Timelines`, timeline);
+    }
+
+    deleteTimeline(topic: string): Observable<{}> {
+        return this.http.delete(`${this.baseUrl}/api/Timelines/${topic}`);
     }
 }
