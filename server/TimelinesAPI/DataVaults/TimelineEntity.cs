@@ -29,7 +29,7 @@ namespace TimelinesAPI.DataVaults
     public class TimelineEntity : TableEntity
     {
 	    public TimelineEntity(string username, string topicKey)
-		    : base(username, topicKey)
+		    : base(username, topicKey.ToLower())
 	    {
 	    }
 

@@ -28,7 +28,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.moments$ = this.timelineService.getMoments('EF');
+    this.moments$ = this.timelineService.getMoments('ef');
     this.momentsSubscription = this.moments$.subscribe(x => {
       x.map((m) => {
         const date = new Date(m.recordDate);

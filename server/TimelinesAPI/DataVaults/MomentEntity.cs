@@ -11,7 +11,7 @@ namespace TimelinesAPI.DataVaults
         public static string DateFormat = "yyyy-MM-dd";
 
         public MomentEntity(string topicKey, string recordDate)
-            : base(topicKey, recordDate)
+            : base(topicKey.ToLower(), recordDate)
         {
         }
 

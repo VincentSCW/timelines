@@ -21,7 +21,7 @@ namespace TimelinesAPI.Controllers
         [ProducesResponseType(typeof(List<MomentModel>), 200)]
         public async Task<IActionResult> GetMomentsByTimeline([FromQuery]string timeline)
         {
-            var moments = await _momentTableStorage.GetListAsync(timeline);
+            var moments = await _momentTableStorage.GetListAsync($"{MockUser.Username}_{timeline}");
             return Ok(moments.Select(x =>
                 new MomentModel {TopicKey = x.PartitionKey, RecordDate = x.RowKey, Content = x.Content}));
         }
@@ -31,7 +31,7 @@ namespace TimelinesAPI.Controllers
         public async Task<IActionResult> AddOrUpdateMoment([FromBody] MomentModel model)
         {
             var entity = new MomentEntity(model.TopicKey,
-                DateTime.Parse(model.RecordDate).ToString(MomentEntity.DateFormat))
+				DateTime.Parse(model.RecordDate).ToString(MomentEntity.DateFormat))
             {
                 Content = model.Content
             };
