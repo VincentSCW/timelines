@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEditorModule } from 'ngx-editor';
 
+import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
 import { ControlsModule } from './controls/controls.module';
 
@@ -13,12 +14,14 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
 import { NavbarComponent } from './navbar.component';
 import { SidebarComponent } from './sidebar.component';
+import { MainComponent } from './main.component';
 import { TimelineService } from './services/timeline.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    MainComponent,
     TimelineComponent,
     MomentEditorComponent,
     NavbarComponent,
@@ -31,7 +34,8 @@ import { TimelineService } from './services/timeline.service';
     MaterialModule,
     BrowserAnimationsModule,
     NgxEditorModule,
-    ControlsModule
+    ControlsModule,
+    AppRoutingModule
   ],
   exports: [
     MaterialModule

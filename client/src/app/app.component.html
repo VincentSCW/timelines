@@ -1,11 +1,11 @@
-<app-navbar (toggleSidenav)="sidenav.toggle()"></app-navbar>
+<app-navbar (toggleSidenav)="sidenav.toggle(); isOpened=!isOpened"></app-navbar>
 <div class="container main">
 	<mat-sidenav-container>
-		<mat-sidenav #sidenav mode="side" opened="opened" class="sidenav-container">
+		<mat-sidenav #sidenav mode="side" [opened]="isOpened" class="sidenav-container">
 			<app-sidebar></app-sidebar>
 		</mat-sidenav>
 		<mat-sidenav-content>
-			<app-timeline></app-timeline>
+			<router-outlet></router-outlet>
 		</mat-sidenav-content>
 	</mat-sidenav-container>
 </div>

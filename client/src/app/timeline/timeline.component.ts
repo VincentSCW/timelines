@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { MatDialog } from '@angular/material';
 
 import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
@@ -22,13 +23,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   private momentsSubscription: Subscription;
 
-  constructor(private timelineService: TimelineService, private dialog: MatDialog) { 
+  constructor(private timelineService: TimelineService,
+    private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute) { 
     this.groupedMoments = new Array();
     this.loaded = false;
   }
 
   ngOnInit() {
-    this.moments$ = this.timelineService.getMoments('ef');
+    this.moments$ = this.timelineService.getMoments(this.activatedRoute.snapshot.paramMap.get('timeline'));
     this.momentsSubscription = this.moments$.subscribe(x => {
       x.map((m) => {
         const date = new Date(m.recordDate);

@@ -3,9 +3,9 @@
     时间轴
   </p>
   <ul *ngFor="let item of timelines$ | async" class="menu-list">
-    <a>{{item.title}}</a>
+    <a [class.is-active]="urlTopicKey.endsWith(item.topicKey)" (click)="onTimelineClicked(item)">{{item.title}}</a>
   </ul>
-  <p class="menu-label">
+  <!-- <p class="menu-label">
     管理
-  </p>
+  </p> -->
 </aside>

@@ -1,9 +1,15 @@
 .main {
   padding-top: 20px;
+  min-height: calc(100vh - 52px);
 }
 
 .sidenav-container {
-  width: 200px !important;
+  min-width: 240px !important;
+  max-width: 300px !important;
   padding-right: 5px;
   box-shadow: 1px 0 #F1F1F1;
+}
+
+.mat-sidenav-content {
+  min-height: calc(100vh - 80px) !important;
 }
