@@ -27,8 +27,11 @@ namespace TimelinesAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<StorageAccountSettings>(Configuration.GetSection(nameof(StorageAccountSettings)));
-            services.AddSingleton<SimpleCacheService<List<MomentEntity>>>();
-            services.AddTransient<TableStorageVaults>();
+	        services.AddSingleton<SimpleCacheService<List<MomentEntity>>>();
+	        services.AddSingleton<SimpleCacheService<List<TimelineEntity>>>();
+
+			services.AddSingleton<MomentTableStorageVaults>();
+	        services.AddSingleton<TimelineTableStorageVaults>();
 
             services.AddCors(options =>
             {
