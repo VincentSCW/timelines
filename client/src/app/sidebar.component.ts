@@ -42,6 +42,8 @@ export class SidebarComponent implements OnInit {
   }
 
   onAddMomentClicked() {
-    this.dialog.open(MomentEditorComponent, {});
+    if (this.urlTopicKey != null) {
+      this.dialog.open(MomentEditorComponent, { data: { topicKey: this.urlTopicKey } });
+    }
   }
 }

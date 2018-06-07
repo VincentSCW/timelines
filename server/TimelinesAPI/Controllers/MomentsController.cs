@@ -12,6 +12,7 @@ namespace TimelinesAPI.Controllers
     public class MomentsController : Controller
     {
         private readonly MomentTableStorageVaults _momentTableStorage;
+
         public MomentsController(MomentTableStorageVaults tableStorage)
         {
             _momentTableStorage = tableStorage;
@@ -30,7 +31,10 @@ namespace TimelinesAPI.Controllers
         [ProducesResponseType(typeof(MomentModel), 200)]
         public async Task<IActionResult> AddOrUpdateMoment([FromBody] MomentModel model)
         {
-            var entity = new MomentEntity(model.TopicKey,
+			var value = await _momentTableStorage.GetAsync(model.TopicKey, DateTime.Parse(model.RecordDate).ToString(MomentEntity.DateFormat));
+
+			// If not exists, it should be a new entity, add it with username
+			var entity = new MomentEntity(value == null ? $"{MockUser.Username}_{model.TopicKey}" : model.TopicKey,
 				DateTime.Parse(model.RecordDate).ToString(MomentEntity.DateFormat))
             {
                 Content = model.Content

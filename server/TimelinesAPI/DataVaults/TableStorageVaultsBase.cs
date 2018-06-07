@@ -9,31 +9,17 @@ using TimelinesAPI.Settings;
 
 namespace TimelinesAPI.DataVaults
 {
-    public abstract class TableStorageVaultsBase<TEntity> where TEntity : TableEntity, new()
+    public abstract class TableStorageVaultsBase<TEntity> : StorageVaultsBase
+	    where TEntity : TableEntity, new()
     {
-		private readonly StorageAccountSettings _settings;
 	    private readonly SimpleCacheService<List<TEntity>> _cacheService;
 
 		protected abstract string TableName { get; }
 		public TableStorageVaultsBase(IOptions<StorageAccountSettings> settings,
 			SimpleCacheService<List<TEntity>> cacheService)
+			: base(settings)
 		{
-			_settings = settings.Value;
 			_cacheService = cacheService;
-		}
-
-		private CloudStorageAccount GetAccount()
-		{
-			if (CloudStorageAccount.TryParse(
-				_settings.ConnectionString,
-				out CloudStorageAccount storagetAccount))
-			{
-				return storagetAccount;
-			}
-			else
-			{
-				throw new Exception();
-			}
 		}
 
 		protected async Task<CloudTable> CreateTableAsync(string tableName)

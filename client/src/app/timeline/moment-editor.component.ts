@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Moment } from '../models/moment.model';
 import { TimelineService } from '../services/timeline.service';
 
+import { environment } from '../../environments/environment';
+
 @Component({
     selector: 'app-moment-editor',
     templateUrl: './moment-editor.component.html',
@@ -10,7 +12,28 @@ import { TimelineService } from '../services/timeline.service';
 })
 
 export class MomentEditorComponent implements OnInit {
-    model: Moment = { topicKey: 'EF', recordDate: new Date() };
+    model: Moment = { topicKey: '', recordDate: new Date() };
+    editorConfig = {
+        "editable": true,
+        "spellcheck": true,
+        "height": "auto",
+        "minHeight": "300px",
+        "width": "auto",
+        "minWidth": "0",
+        "translate": "yes",
+        "enableToolbar": true,
+        "showToolbar": true,
+        "placeholder": "Enter text here...",
+        "imageEndPoint": `${environment.apiServerUrl}/api/images/upload`,
+        "toolbar": [
+            ["bold", "italic", "underline"],
+            ["fontName", "fontSize", "color"],
+            ["indent", "outdent"],
+            ["cut", "copy", "delete", "removeFormat", "undo", "redo"],
+            ["paragraph", "blockquote", "removeBlockquote", "horizontalLine"],
+            ["link", "unlink", "image", "video"]
+        ]
+    };
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: Moment,

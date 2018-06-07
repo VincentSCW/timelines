@@ -32,6 +32,7 @@ namespace TimelinesAPI
 
 			services.AddSingleton<MomentTableStorageVaults>();
 	        services.AddSingleton<TimelineTableStorageVaults>();
+	        services.AddSingleton<BlobStorageVaults>();
 
             services.AddCors(options =>
             {
