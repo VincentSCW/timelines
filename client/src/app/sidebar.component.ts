@@ -37,6 +37,10 @@ export class SidebarComponent implements OnInit {
     this.urlTopicKey = timeline.topicKey;
   }
 
+  onCreateTimelineClicked() {
+    
+  }
+
   onAddMomentClicked() {
     this.dialog.open(MomentEditorComponent, {});
   }
