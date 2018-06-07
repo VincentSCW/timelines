@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../environments/environment';
 import { Timeline } from './models/timeline.model';
 import { TimelineService } from './services/timeline.service';
+import { MomentEditorComponent } from './timeline/moment-editor.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,7 +22,8 @@ export class SidebarComponent implements OnInit {
 
   constructor(private timelineService: TimelineService,
     private router: Router,
-    private location: Location) {
+    private location: Location,
+    private dialog: MatDialog) {
 
   }
 
@@ -32,5 +35,9 @@ export class SidebarComponent implements OnInit {
   onTimelineClicked(timeline: Timeline) {
     this.router.navigateByUrl(`/${timeline.topicKey}`);
     this.urlTopicKey = timeline.topicKey;
+  }
+
+  onAddMomentClicked() {
+    this.dialog.open(MomentEditorComponent, {});
   }
 }

@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
 
 @Component({
@@ -10,15 +9,11 @@ import { MomentEditorComponent } from './timeline/moment-editor.component';
 export class NavbarComponent {
 	@Output() toggleSidenav = new EventEmitter<void>();
 
-	constructor(private dialog: MatDialog) {
+	constructor() {
 
 	}
 
 	toggleMenu() {
 		this.toggleSidenav.emit();
-	}
-
-	onAddClicked() {
-		this.dialog.open(MomentEditorComponent, {});
 	}
 }
