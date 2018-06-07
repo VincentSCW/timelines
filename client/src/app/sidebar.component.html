@@ -1,11 +1,25 @@
-<aside class="menu">
-  <p class="menu-label">
-    时间轴
-  </p>
-  <ul *ngFor="let item of timelines$ | async" class="menu-list">
-    <a [class.is-active]="urlTopicKey.endsWith(item.topicKey)" (click)="onTimelineClicked(item)">{{item.title}}</a>
-  </ul>
-  <!-- <p class="menu-label">
+<div class="app-sidebar">
+  <div class="level is-mobile" *ngIf="editable">
+    <div class="level-left">
+    </div>
+    <div class="level-right">
+      <a matTooltip="添加时间轴" class="level-item">
+        <mat-icon>library_add</mat-icon>
+      </a>
+      <a matTooltip="添加Moment" class="level-item">
+        <mat-icon>note_add</mat-icon>
+      </a>
+    </div>
+  </div>
+  <aside class="menu">
+    <p class="menu-label">
+      时间轴
+    </p>
+    <ul *ngFor="let item of timelines$ | async" class="menu-list">
+      <a [class.is-active]="urlTopicKey.endsWith(item.topicKey)" (click)="onTimelineClicked(item)">{{item.title}}</a>
+    </ul>
+    <!-- <p class="menu-label">
     管理
   </p> -->
-</aside>
+  </aside>
+</div>

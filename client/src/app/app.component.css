@@ -1,5 +1,4 @@
 .main {
-  padding-top: 20px;
   min-height: calc(100vh - 52px);
 }
 
@@ -12,4 +11,11 @@
 
 .mat-sidenav-content {
   min-height: calc(100vh - 80px) !important;
+}
+
+.mat-drawer {
+  background-color: #FAFAFA
+}
+.mat-drawer-container {
+  background-color: white !important;
 }
