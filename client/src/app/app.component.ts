@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, RouterEvent } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { Router, NavigationEnd, RouterEvent } from '@angular/router';
 export class AppComponent implements OnInit {
   isOpened: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    private title: Title) {
 
   }
 
@@ -18,7 +20,8 @@ export class AppComponent implements OnInit {
       .subscribe((event: RouterEvent) => {
         if (this.isOpened == false) {
           this.isOpened = event.url == '' || event.url == '/';
-        }  
+        }
+        this.title.setTitle('时间轴');
       });
   }
 }

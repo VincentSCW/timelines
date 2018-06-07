@@ -26,7 +26,6 @@ namespace TimelinesAPI.Controllers
 	        return Ok(timelines.Select(x =>
 		        new TimelineModel
 		        {
-			        AccessKey = x.AccessKey,
 			        PeriodGroupLevel = x.PeriodGroupLevel,
 			        ProtectLevel = x.ProtectLevel,
 			        Username = x.PartitionKey,
@@ -36,13 +35,22 @@ namespace TimelinesAPI.Controllers
 	        ));
         }
 
-        //[HttpGet("{topicKey}")]
-        //public async Task<IActionResult> GetTimelineByTopicKey(string topicKey)
-        //{
-        //    return "value";
-        //}
+		[HttpGet("{topicKey}")]
+		[ProducesResponseType(typeof(TimelineModel), 200)]
+		public async Task<IActionResult> GetTimelineByTopicKey(string topicKey)
+		{
+			var x = await _timelineTableStorage.GetAsync(MockUser.Username, topicKey.ToLower());
+			return Ok(new TimelineModel
+			{
+				PeriodGroupLevel = x.PeriodGroupLevel,
+				ProtectLevel = x.ProtectLevel,
+				Username = x.PartitionKey,
+				TopicKey = x.RowKey,
+				Title = x.Title
+			});
+		}
 
-        [HttpPost]
+		[HttpPost]
         [ProducesResponseType(typeof(TimelineModel), 200)]
 		public async Task<IActionResult> AddOrUpdateTimeline([FromBody]TimelineModel model)
         {
@@ -57,7 +65,6 @@ namespace TimelinesAPI.Controllers
 	        var succeed = await _timelineTableStorage.InsertOrReplaceAsync(entity);
 	        if (succeed)
 		        return Ok(new TimelineModel {
-			        AccessKey = entity.AccessKey,
 			        PeriodGroupLevel = entity.PeriodGroupLevel,
 			        ProtectLevel = entity.ProtectLevel,
 			        Username = entity.PartitionKey,

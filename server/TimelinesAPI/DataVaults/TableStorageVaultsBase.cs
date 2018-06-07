@@ -102,5 +102,19 @@ namespace TimelinesAPI.DataVaults
 			_cacheService.StoreInCache(partitionKey, list);
 			return list;
 		}
+
+	    public virtual async Task<TEntity> GetAsync(string partitionKey, string rowKey)
+	    {
+		    if (_cacheService.TryGetFromCache(partitionKey, out List<TEntity> value))
+			    return value.FirstOrDefault(x => x.RowKey == rowKey);
+
+		    var tableClient = GetAccount().CreateCloudTableClient();
+		    var table = tableClient.GetTableReference(TableName);
+
+			var retrieveOperation = TableOperation.Retrieve<TEntity>(partitionKey, rowKey);
+
+			var retrieveResult = await table.ExecuteAsync(retrieveOperation);
+		    return retrieveResult.Result as TEntity;
+	    }
 	}
 }
