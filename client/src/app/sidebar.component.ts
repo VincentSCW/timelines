@@ -33,7 +33,7 @@ export class SidebarComponent implements OnInit {
   }
 
   onTimelineClicked(timeline: Timeline) {
-    this.router.navigateByUrl(`/${timeline.topicKey}`);
+    this.router.navigateByUrl(`/timeline/${timeline.topicKey}`);
     this.urlTopicKey = timeline.topicKey;
   }
 

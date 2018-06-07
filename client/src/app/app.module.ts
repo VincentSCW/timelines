@@ -12,11 +12,11 @@ import { ControlsModule } from './controls/controls.module';
 import { AppComponent } from './app.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
+import { TimelineEditorComponent } from './timeline/timeline-editor.component';
 import { NavbarComponent } from './navbar.component';
 import { SidebarComponent } from './sidebar.component';
 import { MainComponent } from './main.component';
 import { TimelineService } from './services/timeline.service';
-
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { TimelineService } from './services/timeline.service';
     MainComponent,
     TimelineComponent,
     MomentEditorComponent,
+    TimelineEditorComponent,
     NavbarComponent,
     SidebarComponent
   ],

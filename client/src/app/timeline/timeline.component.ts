@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { switchMap } from 'rxjs/operators';
 
 import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
@@ -26,6 +27,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   private timelineSubscription: Subscription;
   private momentsSubscription: Subscription;
 
+  private timeline$: Observable<Timeline>;
+
   constructor(private timelineService: TimelineService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -35,24 +38,29 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const topicKey = this.activatedRoute.snapshot.paramMap.get('timeline');
-    this.timelineSubscription = this.timelineService.getTimeline(topicKey).subscribe(x => {
-      this.timeline = x;
-      this.title.setTitle(`${x.title} | 时间轴`)
-    });
+    this.timeline$ = this.activatedRoute.paramMap.pipe(
+      switchMap((params: ParamMap) => this.timelineService.getTimeline(params.get('timeline')))
+    );
     
-    this.momentsSubscription = this.timelineService.getMoments(topicKey).subscribe(x => {
-      x.map((m) => {
-        const date = new Date(m.recordDate);
-        let month = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long'});
-        let grouped = this.groupedMoments.find(g => g.group == month);
-        if (grouped == null) {
-          this.groupedMoments.push({group: month, moments: [m]});
-        } else {
-          grouped.moments.push(m);
-        }
+    this.timelineSubscription = this.timeline$.subscribe((t) => {
+      this.groupedMoments = new Array();
+      this.loaded = false;
+      
+      this.timeline = t;
+      this.title.setTitle(`${t.title} | 时间轴`);
+      this.momentsSubscription = this.timelineService.getMoments(t.topicKey).subscribe(x => {
+        x.map((m) => {
+          const date = new Date(m.recordDate);
+          let month = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+          let grouped = this.groupedMoments.find(g => g.group == month);
+          if (grouped == null) {
+            this.groupedMoments.push({ group: month, moments: [m] });
+          } else {
+            grouped.moments.push(m);
+          }
+        });
+        this.loaded = true;
       });
-      this.loaded = true;
     });
   }
 
