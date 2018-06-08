@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using Timelines.OAuth2Provider;
+using TimelinesAPI.Authentication;
 using TimelinesAPI.DataVaults;
 using TimelinesAPI.Settings;
 
@@ -27,17 +29,34 @@ namespace TimelinesAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton((sp) => new StorageAccountSettings
+            services.AddSingleton(sp => new StorageAccountSettings
             {
 				Key = Environment.GetEnvironmentVariable("STORAGEACCOUNT_KEY"),
 				ConnectionString = Environment.GetEnvironmentVariable("STORAGEACCOUNT_CONNECTIONSTRING")
             });
+	        var jwtSettings = new JwtSettings
+	        {
+		        Secret = Environment.GetEnvironmentVariable("JWT_SECRET")
+	        };
+
+			services.AddSingleton(sp => jwtSettings);
+	        services.AddSingleton(sp => new OpenIdAuthorization
+	        {
+		        LinkedInConfig = new OAuth2Config
+		        {
+					ClientId = Environment.GetEnvironmentVariable("LINKEDIN_CLIENTID"),
+					ClientSecret = Environment.GetEnvironmentVariable("LINKEDIN_CLIENTSECRET"),
+					RedirectUrl = Environment.GetEnvironmentVariable("LINKEDIN_REDIRECT")
+				}
+	        });
 	        services.AddSingleton<SimpleCacheService<List<MomentEntity>>>();
 	        services.AddSingleton<SimpleCacheService<List<TimelineEntity>>>();
 
 			services.AddSingleton<MomentTableStorageVaults>();
 	        services.AddSingleton<TimelineTableStorageVaults>();
 	        services.AddSingleton<BlobStorageVaults>();
+
+	        services.AddAuthenticationOAuth(jwtSettings);
 
             services.AddCors(options =>
             {
@@ -77,7 +96,8 @@ namespace TimelinesAPI
             }
 
             app.UseCors("CorsPolicy");
-            app.Use(async (context, next) =>
+	        app.UseAuthentication();
+			app.Use(async (context, next) =>
             {
                 await next();
                 if (context.Response.StatusCode == 404 &&
