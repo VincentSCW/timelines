@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -54,7 +55,13 @@ namespace TimelinesAPI
 
                 c.DescribeAllEnumsAsStrings();
             });
-            services.AddMvc();
+
+	        services.Configure<FormOptions>(x =>
+	        {
+		        x.ValueLengthLimit = int.MaxValue;
+		        x.MultipartBodyLengthLimit = int.MaxValue; // In case of multipart
+	        });
+			services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

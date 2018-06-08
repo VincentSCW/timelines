@@ -3,12 +3,10 @@
     <div class="level-left">
     </div>
     <div class="level-right">
-      <a class="level-item button is-rounded is-link is-small"
-        (click)="onCreateTimelineClicked()">
+      <a class="level-item button is-rounded is-link is-small" (click)="onCreateTimelineClicked()">
         新建
       </a>
-      <a class="level-item button is-rounded is-link is-small"
-        (click)="onAddMomentClicked()">
+      <a class="level-item button is-rounded is-link is-small" (click)="onAddMomentClicked()">
         添加
       </a>
     </div>
@@ -18,7 +16,18 @@
       时间轴
     </p>
     <ul *ngFor="let item of timelines$ | async" class="menu-list">
-      <a [class.is-active]="urlTopicKey.endsWith(item.topicKey)" (click)="onTimelineClicked(item)">{{item.title}}</a>
+      <a [class.is-active]="urlTopicKey.endsWith(item.topicKey)" (click)="onTimelineClicked(item)">
+        <div class="level is-mobile">
+          <div class="level-left">
+            {{item.title}}
+          </div>
+          <div class="level-right">
+            <span class="icon" *ngIf="item.protectLevel == 'Protected'">
+              <i class="fas fa-lock"></i>
+            </span>
+          </div>
+        </div>
+      </a>
     </ul>
     <!-- <p class="menu-label">
     管理

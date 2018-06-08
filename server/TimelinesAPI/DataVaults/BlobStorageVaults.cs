@@ -35,20 +35,22 @@ namespace TimelinesAPI.DataVaults
 		    return container;
 	    }
 
-		public async Task<bool> UploadImageAsync(string toBeUploaded)
+		public async Task<string> UploadImageAsync(string toBeUploaded)
 		{
 			var container = await GetBlobContainerAsync(IMAGE_CONTAINER);
 			
 			try
 			{
-				CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference(toBeUploaded);
+				var fileName = Path.GetFileName(toBeUploaded);
+
+				CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference(fileName);
 				await cloudBlockBlob.UploadFromFileAsync(toBeUploaded);
 
-				return true;
+				return cloudBlockBlob.Uri.AbsoluteUri;
 			}
 			catch
 			{
-				return false;
+				return null;
 			}
 		}
 

@@ -20,16 +20,22 @@ namespace TimelinesAPI.Controllers
 			_blobStorage = blobStorage;
 		}
 
+
+
 		[HttpPost("upload")]
-		public async Task<IActionResult> UploadImage()
+		[RequestSizeLimit(10_000_000)] // up to 10 mb
+		public async Task<IActionResult> Upload()
 		{
 			try
 			{
 				var file = HttpContext.Request.Form.Files["file"];
 
 				var localFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-				var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "uploadedImage",
-					localFileName);
+				var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "uploadedImage");
+				if (!Directory.Exists(directory))
+					Directory.CreateDirectory(directory);
+
+				var filePath = Path.Combine(directory, localFileName);
 
 				//Deletion exists file  
 				if (System.IO.File.Exists(filePath))
@@ -53,11 +59,13 @@ namespace TimelinesAPI.Controllers
 					filePath = resized;
 				}
 
-				await _blobStorage.UploadImageAsync(filePath);
+				var path = await _blobStorage.UploadImageAsync(filePath);
 
 				System.IO.File.Delete(filePath);
+				if (path == null)
+					throw new Exception("Upload to Azure failed.");
 
-				return Ok(new {url = "http://test"});
+				return Ok(new { url = path });
 			}
 			catch (Exception ex)
 			{
@@ -80,21 +88,24 @@ namespace TimelinesAPI.Controllers
 			try
 			{
 				long imageQuality = quality;
-				Bitmap sourceImage = new Bitmap(sourceFile);
-				ImageCodecInfo myImageCodecInfo = GetEncoderInfo("image/jpeg");
-				System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
-				EncoderParameters myEncoderParameters = new EncoderParameters(1);
-				EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, imageQuality);
-				myEncoderParameters.Param[0] = myEncoderParameter;
-				float xWidth = sourceImage.Width;
-				float yWidth = sourceImage.Height;
-				Bitmap newImage = new Bitmap((int)(xWidth / multiple), (int)(yWidth / multiple));
-				Graphics g = Graphics.FromImage(newImage);
+				using (Bitmap sourceImage = new Bitmap(sourceFile))
+				{
+					ImageCodecInfo myImageCodecInfo = GetEncoderInfo("image/jpeg");
+					Encoder myEncoder = Encoder.Quality;
+					EncoderParameters myEncoderParameters = new EncoderParameters(1);
+					EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, imageQuality);
+					myEncoderParameters.Param[0] = myEncoderParameter;
+					float xWidth = sourceImage.Width;
+					float yWidth = sourceImage.Height;
+					Bitmap newImage = new Bitmap((int) (xWidth / multiple), (int) (yWidth / multiple));
+					using (Graphics g = Graphics.FromImage(newImage))
+					{
+						g.DrawImage(sourceImage, 0, 0, xWidth / multiple, yWidth / multiple);
+					}
 
-				g.DrawImage(sourceImage, 0, 0, xWidth / multiple, yWidth / multiple);
-				g.Dispose();
-				newImage.Save(outputFile, myImageCodecInfo, myEncoderParameters);
-				return true;
+					newImage.Save(outputFile, myImageCodecInfo, myEncoderParameters);
+					return true;
+				}
 			}
 			catch
 			{

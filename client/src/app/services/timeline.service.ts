@@ -40,4 +40,8 @@ export class TimelineService {
 	deleteTimeline(topic: string): Observable<{}> {
 		return this.http.delete(`${this.baseUrl}/api/Timelines/${topic}`);
 	}
+
+	verifyAccessCode(timeline: Timeline): Observable<boolean> {
+		return this.http.post<boolean>(`${this.baseUrl}/api/Timelines/${timeline.topicKey}/verify`, timeline);
+	}
 }

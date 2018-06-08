@@ -1,18 +1,18 @@
 export enum ProtectLevel {
-  public,
-  protect
+  public = 'Public',
+  protect = 'Protected'
 }
 
 export enum PeriodGroupLevel {
-  any,
-  byDay,
-  byMonth,
-  byYear
+  any = 'Any',
+  byDay = 'ByDay',
+  byMonth = 'ByMonth',
+  byYear = 'ByYear'
 }
 
 export interface Timeline {
-  username: string;
-  title: string;
+  username?: string;
+  title?: string;
   topicKey: string;
   protectLevel: ProtectLevel;
   accessKey?: string;

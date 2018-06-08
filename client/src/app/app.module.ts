@@ -16,7 +16,9 @@ import { TimelineEditorComponent } from './timeline/timeline-editor.component';
 import { NavbarComponent } from './navbar.component';
 import { SidebarComponent } from './sidebar.component';
 import { MainComponent } from './main.component';
+import { AccessKeyDialogComponent } from './timeline/access-key-dialog.component';
 import { TimelineService } from './services/timeline.service';
+import { TimelineAccessGuard } from './services/timeline-access-guard.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { TimelineService } from './services/timeline.service';
     MomentEditorComponent,
     TimelineEditorComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    AccessKeyDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -42,10 +45,12 @@ import { TimelineService } from './services/timeline.service';
     MaterialModule
   ],
   providers: [
-    TimelineService
+    TimelineService,
+    TimelineAccessGuard
   ],
   entryComponents: [
-    MomentEditorComponent
+    MomentEditorComponent,
+    AccessKeyDialogComponent
   ],
   bootstrap: [AppComponent]
 })

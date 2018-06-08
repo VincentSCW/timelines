@@ -40,6 +40,9 @@ namespace TimelinesAPI.Controllers
 		public async Task<IActionResult> GetTimelineByTopicKey(string topicKey)
 		{
 			var x = await _timelineTableStorage.GetAsync(MockUser.Username, topicKey.ToLower());
+			if (x == null)
+				return NotFound();
+
 			return Ok(new TimelineModel
 			{
 				PeriodGroupLevel = x.PeriodGroupLevel,
@@ -85,5 +88,16 @@ namespace TimelinesAPI.Controllers
 	        else
 		        return BadRequest();
 		}
+
+	    [HttpPost("{key}/verify")]
+		[ProducesResponseType(typeof(bool), 200)]
+	    public async Task<IActionResult> VerifyAccessCode([FromBody] TimelineModel model)
+	    {
+		    var x = await _timelineTableStorage.GetAsync(MockUser.Username, model.TopicKey.ToLower());
+		    if (x == null)
+			    return NotFound();
+
+		    return Ok(x.AccessKey == model.AccessKey);
+	    }
     }
 }
