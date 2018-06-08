@@ -11,9 +11,9 @@ namespace TimelinesAPI.DataVaults
     public abstract class StorageVaultsBase
     {
 	    private readonly StorageAccountSettings _settings;
-		public StorageVaultsBase(IOptions<StorageAccountSettings> settings)
+		public StorageVaultsBase(StorageAccountSettings settings)
 	    {
-		    _settings = settings.Value;
+		    _settings = settings;
 	    }
 
 		protected CloudStorageAccount GetAccount()

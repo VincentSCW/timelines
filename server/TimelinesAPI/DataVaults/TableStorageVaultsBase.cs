@@ -15,7 +15,7 @@ namespace TimelinesAPI.DataVaults
 	    private readonly SimpleCacheService<List<TEntity>> _cacheService;
 
 		protected abstract string TableName { get; }
-		public TableStorageVaultsBase(IOptions<StorageAccountSettings> settings,
+		public TableStorageVaultsBase(StorageAccountSettings settings,
 			SimpleCacheService<List<TEntity>> cacheService)
 			: base(settings)
 		{

@@ -12,7 +12,7 @@ namespace TimelinesAPI.DataVaults
 {
     public class MomentTableStorageVaults : TableStorageVaultsBase<MomentEntity>
     {
-        public MomentTableStorageVaults(IOptions<StorageAccountSettings> settings,
+        public MomentTableStorageVaults(StorageAccountSettings settings,
 	        SimpleCacheService<List<MomentEntity>> cacheService)
 			: base(settings, cacheService)
         {

@@ -15,7 +15,7 @@ namespace TimelinesAPI.DataVaults
     {
 	    public const string IMAGE_CONTAINER = "pictureblobs";
 
-		public BlobStorageVaults(IOptions<StorageAccountSettings> settings) : base(settings)
+		public BlobStorageVaults(StorageAccountSettings settings) : base(settings)
 	    {
 	    }
 

@@ -9,7 +9,7 @@ namespace TimelinesAPI.DataVaults
 {
     public class TimelineTableStorageVaults : TableStorageVaultsBase<TimelineEntity>
     {
-	    public TimelineTableStorageVaults(IOptions<StorageAccountSettings> settings,
+	    public TimelineTableStorageVaults(StorageAccountSettings settings,
 		    SimpleCacheService<List<TimelineEntity>> cacheService) 
 		    : base(settings, cacheService)
 	    {

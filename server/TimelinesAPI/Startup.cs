@@ -27,7 +27,11 @@ namespace TimelinesAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<StorageAccountSettings>(Configuration.GetSection(nameof(StorageAccountSettings)));
+            services.AddSingleton((sp) => new StorageAccountSettings
+            {
+				Key = Environment.GetEnvironmentVariable("STORAGEACCOUNT_KEY"),
+				ConnectionString = Environment.GetEnvironmentVariable("STORAGEACCOUNT_CONNECTIONSTRING")
+            });
 	        services.AddSingleton<SimpleCacheService<List<MomentEntity>>>();
 	        services.AddSingleton<SimpleCacheService<List<TimelineEntity>>>();
 
