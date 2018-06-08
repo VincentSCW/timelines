@@ -30,6 +30,7 @@ export class TimelineAccessGuard implements CanActivate {
       return true;
     }
 
-    this.dialog.open(AccessKeyDialogComponent, { data: { topicKey: key } });
+    const dialogRef = this.dialog.open(AccessKeyDialogComponent, { data: { topicKey: key } });
+    return await dialogRef.afterClosed().toPromise<boolean>();
   }
 }

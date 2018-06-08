@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Timeline } from '../models/timeline.model';
 import { TimelineService } from '../services/timeline.service';
@@ -8,11 +8,12 @@ import { TimelineService } from '../services/timeline.service';
 })
 export class AccessKeyDialogComponent implements OnInit {
   model: Timeline;
+  verificationSucceed: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Timeline,
     private dialogRef: MatDialogRef<AccessKeyDialogComponent>,
     private timelineService: TimelineService) {
-    
+    this.verificationSucceed = true;
   }
 
   ngOnInit() {
@@ -20,16 +21,13 @@ export class AccessKeyDialogComponent implements OnInit {
   }
 
   async onSubmit(data: Timeline) {
-    const isValid = await this.timelineService.verifyAccessCode(data).toPromise();
-    if (isValid) {
-      this.dialogRef.close();
-    }  
-    else {
-      
+    this.verificationSucceed = await this.timelineService.verifyAccessCode(data).toPromise();
+    if (this.verificationSucceed) {
+      this.dialogRef.close(true);
     }
   }
 
   onCancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }
