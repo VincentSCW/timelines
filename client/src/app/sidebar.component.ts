@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit {
   }
 
   onCreateTimelineClicked() {
-    
+    this.router.navigateByUrl('/timeline/create');
   }
 
   onAddMomentClicked() {

@@ -19,6 +19,8 @@ import { MainComponent } from './main.component';
 import { AccessKeyDialogComponent } from './timeline/access-key-dialog.component';
 import { TimelineService } from './services/timeline.service';
 import { TimelineAccessGuard } from './services/timeline-access-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -45,8 +47,10 @@ import { TimelineAccessGuard } from './services/timeline-access-guard.service';
     MaterialModule
   ],
   providers: [
+    AuthService,
     TimelineService,
-    TimelineAccessGuard
+    TimelineAccessGuard,
+    AuthGuard
   ],
   entryComponents: [
     MomentEditorComponent,
