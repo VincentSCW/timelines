@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiServerUrl: 'https://timelines.chinacloudsites.cn',
+  apiServerUrl: 'http://sjz.azurewebsites.net/',
   editable: false
 };
