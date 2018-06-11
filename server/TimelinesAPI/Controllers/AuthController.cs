@@ -31,15 +31,24 @@ namespace TimelinesAPI.Controllers
 
 			try
 			{
-				var response = provider.GetAuthResponse(model.Code);
+				var response = await provider.GetAuthResponseAsync(model.Code);
+
+				// Only for one user here
+				if (response.UserInfo.Id != "9nLorlDUeP")
+					throw new InvalidOperationException("Invalid user.");
+
 				UserEntity user = null;
 				switch (type)
 				{
 					case AccountType.LinkedIn:
-						user = new UserEntity();
+						user = new UserEntity
+						{
+							Username = MockUser.Username,
+							DisplayName = response.UserInfo.DisplayName,
+						};
 						break;
 					default:
-						throw new InvalidOperationException("Not supported account type");
+						throw new InvalidOperationException("Not supported account type.");
 				}
 
 				return Ok(new UserWithTokenModel

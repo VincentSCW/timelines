@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TimelinesAPI.DataVaults;
 
@@ -23,6 +24,7 @@ namespace TimelinesAPI.Controllers
 
 
 		[HttpPost("upload")]
+		[Authorize]
 		[RequestSizeLimit(10_000_000)] // up to 10 mb
 		public async Task<IActionResult> Upload()
 		{

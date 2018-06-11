@@ -10,8 +10,7 @@ import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
 import { MomentEditorComponent } from './moment-editor.component';
 import { Timeline } from '../models/timeline.model';
-
-import { environment } from '../../environments/environment';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-timeline',
@@ -22,7 +21,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   timeline: Timeline;
   groupedMoments: GroupedMoments[];
   loaded: boolean;
-  editable = environment.editable;
+  editable: boolean;
 
   private timelineSubscription: Subscription;
   private momentsSubscription: Subscription;
@@ -30,11 +29,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
   private timeline$: Observable<Timeline>;
 
   constructor(private timelineService: TimelineService,
+    private authSvc: AuthService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private title: Title) { 
     this.groupedMoments = new Array();
     this.loaded = false;
+    this.editable = authSvc.isLoggedIn;
   }
 
   ngOnInit() {

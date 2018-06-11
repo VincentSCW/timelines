@@ -4,10 +4,10 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from '../environments/environment';
 import { Timeline } from './models/timeline.model';
 import { TimelineService } from './services/timeline.service';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,12 +18,14 @@ import { MomentEditorComponent } from './timeline/moment-editor.component';
 export class SidebarComponent implements OnInit {
   timelines$: Observable<Timeline[]>;
   urlTopicKey: string;
-  editable = environment.editable;
+  editable: boolean;
 
   constructor(private timelineService: TimelineService,
+    private authSvc: AuthService,
     private router: Router,
     private location: Location,
     private dialog: MatDialog) {
+    this.editable = authSvc.isLoggedIn;
   }
 
   ngOnInit() {

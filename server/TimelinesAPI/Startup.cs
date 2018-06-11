@@ -49,6 +49,8 @@ namespace TimelinesAPI
 					RedirectUrl = Environment.GetEnvironmentVariable("LINKEDIN_REDIRECT")
 				}
 	        });
+	        services.AddSingleton<OAuth2ProviderFactory>();
+
 	        services.AddSingleton<SimpleCacheService<List<MomentEntity>>>();
 	        services.AddSingleton<SimpleCacheService<List<TimelineEntity>>>();
 

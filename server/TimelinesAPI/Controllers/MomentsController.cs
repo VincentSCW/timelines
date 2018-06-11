@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TimelinesAPI.DataVaults;
 using TimelinesAPI.Models;
@@ -28,6 +29,7 @@ namespace TimelinesAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(typeof(MomentModel), 200)]
         public async Task<IActionResult> AddOrUpdateMoment([FromBody] MomentModel model)
         {
@@ -49,7 +51,8 @@ namespace TimelinesAPI.Controllers
         }
 
         [HttpDelete("{topic}/{date}")]
-        public async Task<IActionResult> DeleteMoment(string topic, string date)
+        [Authorize]
+		public async Task<IActionResult> DeleteMoment(string topic, string date)
         {
             var succeed =
                 await _momentTableStorage.DeleteAsync(topic, DateTime.Parse(date).ToString(MomentEntity.DateFormat));

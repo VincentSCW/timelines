@@ -6,7 +6,6 @@
 export const environment = {
   production: false,
   apiServerUrl: 'http://localhost:55962',
-  editable: true,
   state: 'BCEeFWf45A53sdfaef434',
   linkedIn: {
     clientId: '81x1oimxi0mlzy',

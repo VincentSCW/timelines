@@ -5,7 +5,6 @@ import { TimelineRoutingModule } from './timeline-routing.module';
 import { TimelineComponent } from '../timeline/timeline.component';
 import { MomentEditorComponent } from '../timeline/moment-editor.component';
 import { TimelineEditorComponent } from '../timeline/timeline-editor.component';
-import { TimelineService } from '../services/timeline.service';
 import { TimelineAccessGuard } from '../services/timeline-access-guard.service';
 
 @NgModule({

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TimelinesAPI.DataVaults;
 using TimelinesAPI.Models;
@@ -54,7 +55,8 @@ namespace TimelinesAPI.Controllers
 		}
 
 		[HttpPost]
-        [ProducesResponseType(typeof(TimelineModel), 200)]
+		[Authorize]
+		[ProducesResponseType(typeof(TimelineModel), 200)]
 		public async Task<IActionResult> AddOrUpdateTimeline([FromBody]TimelineModel model)
         {
 			var entity = new TimelineEntity(MockUser.Username, model.TopicKey)
@@ -79,7 +81,8 @@ namespace TimelinesAPI.Controllers
 		}
 
         [HttpDelete("{key}")]
-        public async Task<IActionResult> DeleteTimeline(string key)
+        [Authorize]
+		public async Task<IActionResult> DeleteTimeline(string key)
         {
 	        var succeed =
 		        await _timelineTableStorage.DeleteAsync(MockUser.Username, key);

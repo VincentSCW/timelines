@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Timelines.OAuth2Provider
@@ -15,13 +16,13 @@ namespace Timelines.OAuth2Provider
 			_config = config;
 		}
 
-		public AuthResponse GetAuthResponse(string code)
+		public async Task<AuthResponse> GetAuthResponseAsync(string code)
 		{
-			var accessToken = GetAccessToken(code);
+			var accessToken = await GetAccessTokenAsync(code);
 			if (string.IsNullOrEmpty(accessToken))
 				throw new InvalidOperationException("Auth code invalid.");
 
-			var userInfo = GetUserInfo(GetUserInfo(accessToken));
+			var userInfo = GetUserInfo(await GetUserInfoFromProviderAsync(accessToken));
 			return new AuthResponse { AccessToken = accessToken, UserInfo = userInfo };
 		}
 
@@ -33,7 +34,7 @@ namespace Timelines.OAuth2Provider
 		protected abstract int GetUserInfoMethod { get; }
 		protected abstract UserInfo GetUserInfo(JObject obj);
 
-		protected virtual string GetAccessToken(string code)
+		protected virtual async Task<string> GetAccessTokenAsync(string code)
 		{
 			var tokenUrl = AccessTokenUrl;
 			var client = new HttpClient();
@@ -47,12 +48,12 @@ namespace Timelines.OAuth2Provider
 					{"redirect_uri", _config.RedirectUrl}
 				});
 
-			var response = client.PostAsync(tokenUrl, formContent).Result;
-			var contentStr = response.Content.ReadAsStringAsync().Result;
+			var response = await client.PostAsync(tokenUrl, formContent);
+			var contentStr = await response.Content.ReadAsStringAsync();
 			return (string)(JObject.Parse(contentStr)["access_token"]);
 		}
 
-		private JObject GetUserInfo(string accessToken)
+		private async Task<JObject> GetUserInfoFromProviderAsync(string accessToken)
 		{
 			var userInfoUrl = UserInfoUrl;
 			var client = new HttpClient();
@@ -67,8 +68,8 @@ namespace Timelines.OAuth2Provider
 				message.RequestUri = new Uri($"{userInfoUrl}?access_token={accessToken}");
 			}
 
-			var response = client.SendAsync(message).Result;
-			var contentStr = response.Content.ReadAsStringAsync().Result;
+			var response = await client.SendAsync(message);
+			var contentStr = await response.Content.ReadAsStringAsync();
 			return JObject.Parse(contentStr);
 		}
 	}

@@ -26,10 +26,10 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
     this.typeSubscription = this.activatedRoute.paramMap.subscribe((params: Params) =>
       this.authProvider = this.getAuthProvider(params.get('type'))
     );
-    this.routeSubscription = this.activatedRoute.queryParams.subscribe((params: Params) => {
+    this.routeSubscription = this.activatedRoute.queryParams.subscribe(async (params: Params) => {
       const code = this.authProvider.validateParams(params);
       if (code != null) {
-        this.authService.fetchUserInfo(this.authProvider.type, code);
+        await this.authService.fetchUserInfo(this.authProvider.type, code);
       }
 
       this.router.navigateByUrl('');

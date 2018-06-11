@@ -8,6 +8,8 @@ import { AuthService } from '../services/auth.service';
       <a (click)="linkedInLogin()">
         <img src="/assets/linkedin/Sign-In-Large-Default.png" />
       </a>
+      <a (click)="logout()">Logout
+      </a>
     </div>
   `
 })
@@ -18,5 +20,9 @@ export class LoginComponent {
 
   linkedInLogin() {
     AuthService.getProvider('linkedin', this.authService).signIn();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
