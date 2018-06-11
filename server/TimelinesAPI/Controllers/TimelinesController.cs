@@ -31,7 +31,8 @@ namespace TimelinesAPI.Controllers
 			        ProtectLevel = x.ProtectLevel,
 			        Username = x.PartitionKey,
 			        TopicKey = x.RowKey,
-			        Title = x.Title
+			        Title = x.Title,
+					IsCompleted = x.IsCompleted
 		        }
 	        ));
         }
@@ -50,7 +51,8 @@ namespace TimelinesAPI.Controllers
 				ProtectLevel = x.ProtectLevel,
 				Username = x.PartitionKey,
 				TopicKey = x.RowKey,
-				Title = x.Title
+				Title = x.Title,
+				IsCompleted = x.IsCompleted
 			});
 		}
 
@@ -64,7 +66,8 @@ namespace TimelinesAPI.Controllers
 				AccessKey = model.AccessKey,
 				ProtectLevel = model.ProtectLevel,
 				PeriodGroupLevel = model.PeriodGroupLevel,
-				Title = model.Title
+				Title = model.Title,
+				IsCompleted = model.IsCompleted
 			};
 
 	        var succeed = await _timelineTableStorage.InsertOrReplaceAsync(entity);
@@ -74,7 +77,8 @@ namespace TimelinesAPI.Controllers
 			        ProtectLevel = entity.ProtectLevel,
 			        Username = entity.PartitionKey,
 			        TopicKey = entity.RowKey,
-			        Title = entity.Title
+			        Title = entity.Title,
+					IsCompleted = entity.IsCompleted
 		        });
 	        else
 		        return BadRequest();

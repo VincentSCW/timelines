@@ -18,5 +18,6 @@ namespace TimelinesAPI.Models
 		public string AccessKey { get; set; }
 	    [JsonConverter(typeof(StringEnumConverter))]
 		public PeriodGroupLevel PeriodGroupLevel { get; set; }
+		public bool IsCompleted { get; set; }
     }
 }

@@ -52,5 +52,7 @@ namespace TimelinesAPI.DataVaults
 		    get => (PeriodGroupLevel) PeriodGroupLevelValue;
 		    set => PeriodGroupLevelValue = (int) value;
 	    }
+
+		public bool IsCompleted { get; set; }
     }
 }

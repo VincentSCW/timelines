@@ -22,6 +22,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   groupedMoments: GroupedMoments[];
   loaded: boolean;
   editable: boolean;
+  align: number = 0;
 
   private timelineSubscription: Subscription;
   private momentsSubscription: Subscription;
@@ -52,7 +53,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       this.momentsSubscription = this.timelineService.getMoments(t.topicKey).subscribe(x => {
         x.map((m) => {
           const date = new Date(m.recordDate);
-          let month = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+          let month = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
           let grouped = this.groupedMoments.find(g => g.group == month);
           if (grouped == null) {
             this.groupedMoments.push({ group: month, moments: [m] });

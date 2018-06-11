@@ -17,4 +17,5 @@ export interface Timeline {
   protectLevel: ProtectLevel;
   accessKey?: string;
   periodGroupLevel: PeriodGroupLevel;
+  isCompleted: boolean;
 }
