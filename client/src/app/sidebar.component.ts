@@ -24,7 +24,6 @@ export class SidebarComponent implements OnInit {
     private router: Router,
     private location: Location,
     private dialog: MatDialog) {
-
   }
 
   ngOnInit() {

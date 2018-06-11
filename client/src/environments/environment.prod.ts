@@ -1,5 +1,10 @@
 export const environment = {
   production: true,
-  apiServerUrl: 'http://sjz.azurewebsites.net/',
-  editable: false
+  apiServerUrl: '',
+  editable: false,
+  state: 'BCEeFWf45A53sdfaef434',
+  linkedIn: {
+    clientId: '81x1oimxi0mlzy',
+    scope: 'r_basicprofile'
+  },
 };

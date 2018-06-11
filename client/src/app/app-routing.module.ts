@@ -10,9 +10,6 @@ import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: 'timeline/create', component: TimelineEditorComponent, canActivate: [AuthGuard] },
-  { path: 'timeline/manage/:timeline', component: TimelineEditorComponent, canActivate: [AuthGuard] },
-  { path: 'timeline/:timeline', component: TimelineComponent, canActivate: [TimelineAccessGuard] },
   { path: '**', redirectTo: '' }
 ];
 

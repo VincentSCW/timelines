@@ -1,59 +1,38 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxEditorModule } from 'ngx-editor';
+
+import { SharedModule } from './shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
-import { MaterialModule } from './material.module';
-import { ControlsModule } from './controls/controls.module';
+import { TimelineModule } from './timeline/timeline.module';
 
 import { AppComponent } from './app.component';
-import { TimelineComponent } from './timeline/timeline.component';
-import { MomentEditorComponent } from './timeline/moment-editor.component';
-import { TimelineEditorComponent } from './timeline/timeline-editor.component';
 import { NavbarComponent } from './navbar.component';
 import { SidebarComponent } from './sidebar.component';
 import { MainComponent } from './main.component';
 import { AccessKeyDialogComponent } from './timeline/access-key-dialog.component';
-import { TimelineService } from './services/timeline.service';
-import { TimelineAccessGuard } from './services/timeline-access-guard.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
+import { TimelineService } from './services/timeline.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    TimelineComponent,
-    MomentEditorComponent,
-    TimelineEditorComponent,
     NavbarComponent,
     SidebarComponent,
     AccessKeyDialogComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    MaterialModule,
-    BrowserAnimationsModule,
-    NgxEditorModule,
-    ControlsModule,
+    SharedModule,
+    TimelineModule,
     AppRoutingModule
-  ],
-  exports: [
-    MaterialModule
   ],
   providers: [
     AuthService,
-    TimelineService,
-    TimelineAccessGuard,
-    AuthGuard
+    AuthGuard,
+    TimelineService
   ],
   entryComponents: [
-    MomentEditorComponent,
     AccessKeyDialogComponent
   ],
   bootstrap: [AppComponent]

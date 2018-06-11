@@ -24,7 +24,7 @@ export class MomentEditorComponent implements OnInit {
         "enableToolbar": true,
         "showToolbar": true,
         "placeholder": "Enter text here...",
-        "imageEndPoint": `${environment.apiServerUrl}/api/images/upload`,
+        "imageEndPoint": `${location.href.substring(0, location.href.indexOf(location.pathname))}/api/images/upload`,
         "toolbar": [
             ["bold", "italic", "underline"],
             ["fontName", "fontSize", "color"],
