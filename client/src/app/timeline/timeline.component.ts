@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs/operators';
 import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
 import { MomentEditorComponent } from './moment-editor.component';
-import { Timeline } from '../models/timeline.model';
+import { Timeline, PeriodGroupLevel } from '../models/timeline.model';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -52,14 +52,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       this.title.setTitle(`${t.title} | 时间轴`);
       this.momentsSubscription = this.timelineService.getMoments(t.topicKey).subscribe(x => {
         x.map((m) => {
-          const date = new Date(m.recordDate);
-          let month = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-          let grouped = this.groupedMoments.find(g => g.group == month);
-          if (grouped == null) {
-            this.groupedMoments.push({ group: month, moments: [m] });
-          } else {
-            grouped.moments.push(m);
-          }
+          this.groupByLevel(this.timeline.periodGroupLevel, m);
         });
         this.loaded = true;
       });
@@ -77,5 +70,28 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   onDelete(moment: Moment) {
     this.timelineService.deleteMoment(moment.topicKey, moment.recordDate).toPromise();
+  }
+
+  groupByLevel(level: PeriodGroupLevel, m: Moment) {
+    const date = new Date(m.recordDate);
+    let groupKey: string;
+    switch (level) {
+      case PeriodGroupLevel.byDay:
+        groupKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });  
+        break;  
+      case PeriodGroupLevel.byMonth:
+        groupKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        break;
+      case PeriodGroupLevel.byYear:
+        groupKey = date.toLocaleDateString('en-US', { year: 'numeric' });  
+        break;  
+    }
+
+    let grouped = this.groupedMoments.find(g => g.group == groupKey);
+    if (grouped == null) {
+      this.groupedMoments.push({ group: groupKey, moments: [m] });
+    } else {
+      grouped.moments.push(m);
+    }
   }
 }
