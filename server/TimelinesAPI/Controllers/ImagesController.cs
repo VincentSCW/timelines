@@ -21,7 +21,20 @@ namespace TimelinesAPI.Controllers
 			_blobStorage = blobStorage;
 		}
 
-
+		[HttpGet]
+		[Authorize]
+		public async Task<IActionResult> GetImageList([FromQuery] string timeline)
+		{
+			try
+			{
+				var results = await _blobStorage.GetImageListAsync($"{MockUser.Username}/{timeline}");
+				return Ok(results.Select(x => x.AbsoluteUri));
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 
 		[HttpPost("upload")]
 		[Authorize]

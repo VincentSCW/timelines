@@ -52,4 +52,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.dialog.open(MomentEditorComponent, { data: { topicKey: this.activeTopicKey } });
     }
   }
+
+  onImageClicked() {
+    this.router.navigateByUrl('manage/images');
+    this.activeTopicKey = 'images';
+  }
 }

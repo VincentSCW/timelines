@@ -25,12 +25,15 @@ namespace TimelinesAPI.DataVaults
 		    var client = account.CreateCloudBlobClient();
 
 		    var container = client.GetContainerReference(name);
-		    container.CreateIfNotExistsAsync().GetAwaiter().GetResult();
+		    await container.CreateIfNotExistsAsync();
 
 		    BlobContainerPermissions permissions = await container.GetPermissionsAsync();
-		    // Container 中的所有 Blob 都能被访问
-		    permissions.PublicAccess = BlobContainerPublicAccessType.Container;
-		    await container.SetPermissionsAsync(permissions);
+		    if (permissions.PublicAccess != BlobContainerPublicAccessType.Blob)
+		    {
+			    // Container 中的所有 Blob 都能被访问
+			    permissions.PublicAccess = BlobContainerPublicAccessType.Blob;
+			    await container.SetPermissionsAsync(permissions);
+		    }
 
 		    return container;
 	    }
@@ -54,14 +57,15 @@ namespace TimelinesAPI.DataVaults
 			}
 		}
 
-		public async Task<List<Uri>> GetImageListAsync()
+		public async Task<List<Uri>> GetImageListAsync(string prefix)
 		{
 			var list = new List<Uri>();
 			var container = await GetBlobContainerAsync(IMAGE_CONTAINER);
 			BlobContinuationToken blobContinuationToken = null;
 			do
 			{
-				var results = await container.ListBlobsSegmentedAsync(null, blobContinuationToken);
+				var results = await container.ListBlobsSegmentedAsync(prefix, true, BlobListingDetails.All, null, blobContinuationToken,
+					null, null);
 				// Get the value of the continuation token returned by the listing call.
 				blobContinuationToken = results.ContinuationToken;
 				foreach (IListBlobItem item in results.Results)

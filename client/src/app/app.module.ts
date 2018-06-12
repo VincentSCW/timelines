@@ -17,6 +17,8 @@ import { AuthService } from './services/auth.service';
 import { TimelineService } from './services/timeline.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './services/jwt-interceptor.service';
+import { ImageService } from './services/image.service';
+import { ManagementModule } from './management/management.module';
 
 @NgModule({
   declarations: [
@@ -30,12 +32,14 @@ import { JwtInterceptor } from './services/jwt-interceptor.service';
     SharedModule,
     TimelineModule,
     AccountModule,
+    ManagementModule,
     AppRoutingModule
   ],
   providers: [
     AuthService,
     AuthGuard,
     TimelineService,
+    ImageService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   entryComponents: [

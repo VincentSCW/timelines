@@ -1,0 +1,19 @@
+<div class="image-manager">
+  <div class="columns">
+    <div class="column">
+      <div class="box" *ngFor="let image of column1">
+        <app-image-box [src]="image"></app-image-box>
+      </div>
+    </div>
+    <div class="column">
+      <div class="box" *ngFor="let image of column2">
+        <app-image-box [src]="image"></app-image-box>
+      </div>
+    </div>
+    <div class="column">
+      <div class="box" *ngFor="let image of column3">
+        <app-image-box [src]="image"></app-image-box>
+      </div>
+    </div>
+  </div>
+</div>
