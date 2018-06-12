@@ -1,3 +1,7 @@
 .image-manager {
-  margin: 5px 10px;
+  padding: 10px;
+}
+
+.timeline-select {
+  margin-bottom: 20px;
 }
