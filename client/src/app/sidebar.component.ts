@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +7,7 @@ import { Timeline } from './models/timeline.model';
 import { TimelineService } from './services/timeline.service';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
 import { AuthService } from './services/auth.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,27 +15,32 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./sidebar.component.css']
 })
 
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   timelines$: Observable<Timeline[]>;
-  urlTopicKey: string;
+  activeTopicKey: string;
   editable$: Observable<boolean>;
+
+  private timelineSub: Subscription;
 
   constructor(private timelineService: TimelineService,
     private authSvc: AuthService,
     private router: Router,
-    private location: Location,
     private dialog: MatDialog) {
     this.editable$ = authSvc.isLoggedIn;
   }
 
   ngOnInit() {
     this.timelines$ = this.timelineService.getTimelines();
-    this.urlTopicKey = location.pathname;
+    this.timelineSub = this.timelineService.activeTimeline$.subscribe(t => this.activeTopicKey = t.topicKey);
+  }
+
+  ngOnDestroy() {
+    if (!!this.timelineSub) { this.timelineSub.unsubscribe(); }
   }
 
   onTimelineClicked(timeline: Timeline) {
     this.router.navigateByUrl(`/timeline/${timeline.topicKey}`);
-    this.urlTopicKey = timeline.topicKey;
+    this.timelineService.activeTimeline = timeline;
   }
 
   onCreateTimelineClicked() {
@@ -43,8 +48,8 @@ export class SidebarComponent implements OnInit {
   }
 
   onAddMomentClicked() {
-    if (this.urlTopicKey != null) {
-      this.dialog.open(MomentEditorComponent, { data: { topicKey: this.urlTopicKey } });
+    if (this.activeTopicKey != null) {
+      this.dialog.open(MomentEditorComponent, { data: { topicKey: this.activeTopicKey } });
     }
   }
 }

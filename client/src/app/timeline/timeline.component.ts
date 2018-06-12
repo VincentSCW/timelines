@@ -50,6 +50,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       this.loaded = false;
       
       this.timeline = t;
+      this.timelineService.activeTimeline = this.timeline;
       this.align = this.timeline.periodGroupLevel == PeriodGroupLevel.byDay ? -1 : 0;
       this.title.setTitle(`${t.title} | 时间轴`);
       this.momentsSubscription = this.timelineService.getMoments(t.topicKey).subscribe(x => {

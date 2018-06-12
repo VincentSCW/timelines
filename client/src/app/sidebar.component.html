@@ -16,7 +16,7 @@
       时间轴
     </p>
     <ul *ngFor="let item of timelines$ | async" class="menu-list">
-      <a [class.is-active]="urlTopicKey.endsWith(item.topicKey)" (click)="onTimelineClicked(item)">
+      <a [class.is-active]="activeTopicKey == item.topicKey" (click)="onTimelineClicked(item)">
         <div class="level is-mobile">
           <div class="level-left">
             {{item.title}}

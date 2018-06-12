@@ -4,13 +4,25 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
 import { Moment } from '../models/moment.model';
-import { Timeline } from '../models/timeline.model';
+import { Timeline, ProtectLevel, PeriodGroupLevel } from '../models/timeline.model';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class TimelineService {
 	private baseUrl: string;
+	private defaultTimeline: Timeline = { topicKey: '', protectLevel: ProtectLevel.public, periodGroupLevel: PeriodGroupLevel.any, isCompleted: false };
+	activeTimeline$ = new BehaviorSubject<Timeline>(this.defaultTimeline);
+
 	constructor(private http: HttpClient) {
 		this.baseUrl = environment.apiServerUrl;
+	}
+
+	get activeTimeline(): Timeline {
+		return this.activeTimeline$.value;
+	}
+
+	set activeTimeline(value: Timeline) {
+		this.activeTimeline$.next(value);
 	}
 
 	getMoments(topic: string): Observable<Moment[]> {
