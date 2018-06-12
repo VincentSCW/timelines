@@ -16,9 +16,10 @@ import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { TimelineService } from './services/timeline.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JwtInterceptor } from './services/jwt-interceptor.service';
+import { AuthInterceptor } from './services/auth.interceptor';
 import { ImageService } from './services/image.service';
 import { ManagementModule } from './management/management.module';
+import { CachingInterceptor } from './services/caching.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ManagementModule } from './management/management.module';
     AuthGuard,
     TimelineService,
     ImageService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
   ],
   entryComponents: [
     AccessKeyDialogComponent
