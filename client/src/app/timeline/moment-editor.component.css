@@ -1,5 +1,6 @@
 .center-dialog {
-  min-width: 500px;
+	min-width: 500px;
+	max-height: 80vh;
 }
 
 .ngx-wrapper {
