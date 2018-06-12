@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
@@ -21,7 +22,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   timeline: Timeline;
   groupedMoments: GroupedMoments[];
   loaded: boolean;
-  editable: boolean;
+  editable$: Observable<boolean>;
   align: number = 0;
 
   private timelineSubscription: Subscription;
@@ -36,7 +37,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private title: Title) { 
     this.groupedMoments = new Array();
     this.loaded = false;
-    this.editable = authSvc.isLoggedIn;
+    this.editable$ = authSvc.isLoggedIn;
   }
 
   ngOnInit() {
@@ -49,6 +50,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       this.loaded = false;
       
       this.timeline = t;
+      this.align = this.timeline.periodGroupLevel == PeriodGroupLevel.byDay ? -1 : 0;
       this.title.setTitle(`${t.title} | 时间轴`);
       this.momentsSubscription = this.timelineService.getMoments(t.topicKey).subscribe(x => {
         x.map((m) => {

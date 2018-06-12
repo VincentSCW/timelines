@@ -25,7 +25,7 @@ namespace TimelinesAPI.Controllers
 
 		[HttpPost("upload")]
 		[Authorize]
-		[RequestSizeLimit(10_000_000)] // up to 10 mb
+		[RequestSizeLimit(5_000_000)] // up to 5 mb
 		public async Task<IActionResult> Upload()
 		{
 			try
@@ -51,15 +51,15 @@ namespace TimelinesAPI.Controllers
 					stream.Close();
 				}
 
-				if (new FileInfo(filePath).Length > 300000)
-				{
-					var resized = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "uploadedImage",
-						Guid.NewGuid() + Path.GetExtension(file.FileName));
-					GetThumImage(filePath, 20000, 2, resized);
+				//if (new FileInfo(filePath).Length > 300000)
+				//{
+				//	var resized = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "uploadedImage",
+				//		Guid.NewGuid() + Path.GetExtension(file.FileName));
+				//	GetThumImage(filePath, 20000, 2, resized);
 
-					System.IO.File.Delete(filePath);
-					filePath = resized;
-				}
+				//	System.IO.File.Delete(filePath);
+				//	filePath = resized;
+				//}
 
 				var path = await _blobStorage.UploadImageAsync(filePath);
 

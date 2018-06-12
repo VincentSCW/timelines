@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { AuthProviderBase } from './auth-provider-base';
 import { LinkedInAuthProvider } from './linkedin-auth.provider';
@@ -14,7 +15,7 @@ const User_CacheKey = 'user_info';
 
 @Injectable()
 export class AuthService {
-  isLoggedIn = false;
+  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   redirectUrl: string;
 
   public static getProvider(accountType: string, authService: AuthService)
@@ -26,7 +27,7 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    this.isLoggedIn = this.isAccessTokenValid();
+    this.isLoggedIn.next(this.isAccessTokenValid());
   }
 
   get accessToken(): string {
@@ -55,7 +56,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(AccessToken_CacheKey);
     localStorage.removeItem(User_CacheKey);
-    this.isLoggedIn = false;
+    this.isLoggedIn.next(false);
     this.router.navigate(['']);
   }
 
@@ -66,7 +67,7 @@ export class AuthService {
     if (userWithToken != null && userWithToken.user != null) {
       this.user = userWithToken.user;
       this.accessToken = userWithToken.accessToken;
-      this.isLoggedIn = true;
+      this.isLoggedIn.next(true);
     }
   }
 

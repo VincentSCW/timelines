@@ -18,14 +18,14 @@ import { AuthService } from './services/auth.service';
 export class SidebarComponent implements OnInit {
   timelines$: Observable<Timeline[]>;
   urlTopicKey: string;
-  editable: boolean;
+  editable$: Observable<boolean>;
 
   constructor(private timelineService: TimelineService,
     private authSvc: AuthService,
     private router: Router,
     private location: Location,
     private dialog: MatDialog) {
-    this.editable = authSvc.isLoggedIn;
+    this.editable$ = authSvc.isLoggedIn;
   }
 
   ngOnInit() {

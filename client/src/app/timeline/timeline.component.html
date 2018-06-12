@@ -45,7 +45,7 @@
         <div class="timeline-content">
           <p class="heading">{{moment.recordDate | date: 'MMMM dd'}}</p>
           <p [innerHTML]="moment.content"></p>
-          <div class="level is-mobile action-bar" *ngIf="editable">
+          <div class="level is-mobile action-bar" *ngIf="editable$ | async">
             <div class="level-left"></div>
             <div class="level-right">
               <a matTooltip="Edit" class="level-item" (click)="onEdit(moment)">
