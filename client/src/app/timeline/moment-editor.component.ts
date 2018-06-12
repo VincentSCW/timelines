@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Moment } from '../models/moment.model';
 import { TimelineService } from '../services/timeline.service';
 
 import { environment } from '../../environments/environment';
 import { Subscription } from 'rxjs/Subscription';
+import { Timeline } from '../models/timeline.model';
 
 @Component({
 	selector: 'app-moment-editor',
@@ -12,15 +13,14 @@ import { Subscription } from 'rxjs/Subscription';
 	styleUrls: ['./moment-editor.component.css']
 })
 
-export class MomentEditorComponent implements OnInit {
+export class MomentEditorComponent implements OnInit, OnDestroy {
 	model: Moment = { topicKey: '', recordDate: new Date() };
+	timeline: Timeline;
 	editorConfig = {
 		"editable": true,
 		"spellcheck": true,
-		"height": "auto",
-		"minHeight": "300px",
+		"minHeight": "200px",
 		"width": "auto",
-		"minWidth": "0",
 		"translate": "yes",
 		"enableToolbar": true,
 		"showToolbar": true,
@@ -50,8 +50,13 @@ export class MomentEditorComponent implements OnInit {
 			this.model = this.data;
 		}
 		this.timelineSub = this.service.activeTimeline$.subscribe(t => {
+			this.timeline = t;
 			this.editorConfig.imageEndPoint = this.editorConfig.imageEndPoint + `?timeline=${t.topicKey}`;
 		});
+	}
+
+	ngOnDestroy() {
+		if (!!this.timelineSub) { this.timelineSub.unsubscribe(); }
 	}
 
 	onSubmit(newData: Moment) {

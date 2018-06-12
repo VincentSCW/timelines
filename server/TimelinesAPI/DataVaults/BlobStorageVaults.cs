@@ -35,7 +35,7 @@ namespace TimelinesAPI.DataVaults
 		    return container;
 	    }
 
-		public async Task<string> UploadImageAsync(string timeline, string toBeUploaded)
+		public async Task<string> UploadImageAsync(string username, string timeline, string toBeUploaded)
 		{
 			var container = await GetBlobContainerAsync(IMAGE_CONTAINER);
 			
@@ -43,7 +43,7 @@ namespace TimelinesAPI.DataVaults
 			{
 				var fileName = Path.GetFileName(toBeUploaded);
 
-				CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference($"{timeline}/{fileName}");
+				CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference($"{username}/{timeline}/{fileName}");
 				await cloudBlockBlob.UploadFromFileAsync(toBeUploaded);
 
 				return cloudBlockBlob.Uri.AbsoluteUri;

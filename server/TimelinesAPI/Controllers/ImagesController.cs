@@ -61,7 +61,7 @@ namespace TimelinesAPI.Controllers
 				//	filePath = resized;
 				//}
 
-				var path = await _blobStorage.UploadImageAsync(timeline, filePath);
+				var path = await _blobStorage.UploadImageAsync(MockUser.Username, timeline, filePath);
 
 				System.IO.File.Delete(filePath);
 				if (path == null)
