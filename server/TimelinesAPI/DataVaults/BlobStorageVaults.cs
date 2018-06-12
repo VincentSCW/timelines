@@ -13,7 +13,7 @@ namespace TimelinesAPI.DataVaults
 {
     public class BlobStorageVaults : StorageVaultsBase
     {
-	    public const string IMAGE_CONTAINER = "pictureblobs";
+	    public const string IMAGE_CONTAINER = "pictures";
 
 		public BlobStorageVaults(StorageAccountSettings settings) : base(settings)
 	    {
@@ -35,7 +35,7 @@ namespace TimelinesAPI.DataVaults
 		    return container;
 	    }
 
-		public async Task<string> UploadImageAsync(string toBeUploaded)
+		public async Task<string> UploadImageAsync(string timeline, string toBeUploaded)
 		{
 			var container = await GetBlobContainerAsync(IMAGE_CONTAINER);
 			
@@ -43,7 +43,7 @@ namespace TimelinesAPI.DataVaults
 			{
 				var fileName = Path.GetFileName(toBeUploaded);
 
-				CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference(fileName);
+				CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference($"{timeline}/{fileName}");
 				await cloudBlockBlob.UploadFromFileAsync(toBeUploaded);
 
 				return cloudBlockBlob.Uri.AbsoluteUri;

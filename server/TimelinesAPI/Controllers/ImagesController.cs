@@ -26,7 +26,7 @@ namespace TimelinesAPI.Controllers
 		[HttpPost("upload")]
 		[Authorize]
 		[RequestSizeLimit(5_000_000)] // up to 5 mb
-		public async Task<IActionResult> Upload()
+		public async Task<IActionResult> Upload([FromQuery] string timeline)
 		{
 			try
 			{
@@ -61,7 +61,7 @@ namespace TimelinesAPI.Controllers
 				//	filePath = resized;
 				//}
 
-				var path = await _blobStorage.UploadImageAsync(filePath);
+				var path = await _blobStorage.UploadImageAsync(timeline, filePath);
 
 				System.IO.File.Delete(filePath);
 				if (path == null)

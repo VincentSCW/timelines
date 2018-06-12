@@ -45,6 +45,7 @@ export class MomentEditorComponent implements OnInit {
     ngOnInit() {
         if (this.data != null) {
             this.model = this.data;
+            this.editorConfig.imageEndPoint = this.editorConfig.imageEndPoint + `?timeline=${this.model.topicKey}`;
         }
     }
 
