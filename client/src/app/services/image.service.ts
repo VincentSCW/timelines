@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from "../../environments/environment";
@@ -13,6 +13,8 @@ export class ImageService {
   }
 
   getImageUrls(timeline?: string): Observable<string[]> {
-    return this.http.get<string[]>(timeline == null ? `${this.baseUrl}/api/images` : `${this.baseUrl}/api/images?timeline=${timeline}`);
+    const options = timeline ?
+      { params: new HttpParams().set('timeline', timeline) } : {};  
+    return this.http.get<string[]>(`${this.baseUrl}/api/images`, options);
   }
 }

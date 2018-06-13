@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
@@ -26,7 +26,8 @@ export class TimelineService {
 	}
 
 	getMoments(topic: string): Observable<Moment[]> {
-		return this.http.get<Moment[]>(`${this.baseUrl}/api/Moments?timeline=${topic}`);
+		const options = { params: new HttpParams().set('timeline', topic) };
+		return this.http.get<Moment[]>(`${this.baseUrl}/api/Moments`, options);
 	}
 
 	insertOrReplaceMoment(moment: Moment): Observable<Moment> {
