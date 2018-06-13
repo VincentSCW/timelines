@@ -20,6 +20,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
 import { ImageService } from './services/image.service';
 import { ManagementModule } from './management/management.module';
 import { CachingInterceptor } from './services/caching.interceptor';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -41,8 +42,7 @@ import { CachingInterceptor } from './services/caching.interceptor';
     AuthGuard,
     TimelineService,
     ImageService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   entryComponents: [
     AccessKeyDialogComponent

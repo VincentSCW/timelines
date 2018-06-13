@@ -6,6 +6,7 @@ import { TimelineService } from '../services/timeline.service';
 import { environment } from '../../environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 import { Timeline } from '../models/timeline.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-moment-editor',
@@ -60,7 +61,6 @@ export class MomentEditorComponent implements OnInit, OnDestroy {
 	}
 
 	onSubmit(newData: Moment) {
-		//alert(JSON.stringify(newData));
 		this.service.insertOrReplaceMoment(newData).toPromise()
 			.then((moment) => this.dialogRef.close());
 	}
