@@ -1,16 +1,4 @@
 <div class="app-sidebar">
-  <div class="level is-mobile" *ngIf="editable$ | async">
-    <div class="level-left">
-    </div>
-    <div class="level-right">
-      <a class="level-item button is-rounded is-link is-small" (click)="onCreateTimelineClicked()">
-        新建
-      </a>
-      <a class="level-item button is-rounded is-link is-small" (click)="onAddMomentClicked()">
-        添加
-      </a>
-    </div>
-  </div>
   <aside class="menu">
     <div>
       <p class="menu-label">
@@ -40,4 +28,23 @@
       </ul>
     </div>
   </aside>
+
+  <div class="level is-mobile bottom-actions">
+    <div class="level-left">
+      <a class="button is-info" href="https://github.com/VincentSCW/timelines">
+        <span class="icon">
+          <i class="fab fa-github"></i>
+        </span>
+        <span>Github</span>
+      </a>
+    </div>
+    <div class="level-right" *ngIf="editable$ | async">
+      <a class="level-item button is-info is-small" (click)="onCreateTimelineClicked()">
+        新建
+      </a>
+      <a class="level-item button is-info is-small" (click)="onAddMomentClicked()">
+        添加
+      </a>
+    </div>
+  </div>
 </div>

@@ -22,6 +22,7 @@ import { ManagementModule } from './management/management.module';
 import { CachingInterceptor } from './services/caching.interceptor';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { TocModule } from './toc/toc.module';
+import { FooterComponent } from './footer.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TocModule } from './toc/toc.module';
     MainComponent,
     NavbarComponent,
     SidebarComponent,
+    FooterComponent,
     AccessKeyDialogComponent
   ],
   imports: [

@@ -16,3 +16,9 @@ mat-sidenav.mat-sidenav {
 .menu {
   height: 100%;
 }
+
+.bottom-actions {
+  position: fixed;
+  bottom: 20px;
+  min-width: 260px;
+}
