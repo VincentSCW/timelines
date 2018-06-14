@@ -11,8 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  templateUrl: './sidebar.component.html'
 })
 
 export class SidebarComponent implements OnInit, OnDestroy {

@@ -9,8 +9,6 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isOpened: boolean = false;
-
   constructor(private router: Router,
     private title: Title) {
 
@@ -19,9 +17,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.router.events.filter((event) => event instanceof NavigationEnd)
       .subscribe((event: RouterEvent) => {
-        if (this.isOpened == false) {
-          this.isOpened = event.url == '' || event.url == '/';
-        }
         this.title.setTitle('时间轴');
       });
   }

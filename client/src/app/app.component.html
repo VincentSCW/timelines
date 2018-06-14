@@ -1,7 +1,7 @@
-<app-navbar (toggleSidenav)="sidenav.toggle(); isOpened=!isOpened"></app-navbar>
-<div class="container main">
+<app-navbar (toggleSidenav)="sidenav.toggle()"></app-navbar>
+<div class="main">
 	<mat-sidenav-container>
-		<mat-sidenav #sidenav mode="side" [opened]="isOpened" class="sidenav-container">
+		<mat-sidenav #sidenav mode="side" opened="true" class="app-sidebar">
 			<app-sidebar></app-sidebar>
 		</mat-sidenav>
 		<mat-sidenav-content class="main-content">

@@ -5,14 +5,14 @@ $menu-item-active-color: $primary-invert;
 $menu-item-active-background-color: $primary;
 
 @import "../node_modules/bulma/bulma";
+@import './styles/main.scss';
 
 body {
   background-color: $white-bis
 }
 
-.navbar {
-  box-shadow: 0 2px #F1F1F1;
-  background: rgba($color: $primary, $alpha: 0.8) !important;
+.page-h {
+  padding: 0 20px;
 }
 
 ::-webkit-scrollbar { 
