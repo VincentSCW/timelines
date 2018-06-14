@@ -1,19 +1,22 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, HostListener, ElementRef } from '@angular/core';
 import { Router, NavigationEnd, RouterEvent } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material';
 import 'rxjs/add/operator/filter';
+import { ImageViewerComponent } from './controls/image-viewer.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewChecked {
   tocMaxHeight: string;
   private tocMaxHeightOffset = 0;
 
   constructor(private router: Router,
     private title: Title,
-    private hostElement: ElementRef) {
+    private hostElement: ElementRef,
+    private dialog: MatDialog) {
 
   }
 
@@ -22,6 +25,17 @@ export class AppComponent implements OnInit {
       .subscribe((event: RouterEvent) => {
         this.title.setTitle('时间轴');
       });
+  }
+
+  ngAfterViewChecked() {
+    // const el = this.hostElement.nativeElement as Element;
+    // const images = el.querySelectorAll('img');
+    // for (let i = 0; i < images.length; i++) {
+    //   let ele = images.item(i);
+    //   ele.addEventListener('click', () => {
+    //     this.dialog.open(ImageViewerComponent, { data: ele.src });
+    //   });
+    // }
   }
 
   // Dynamically change height of table of contents container
