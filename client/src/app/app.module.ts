@@ -21,6 +21,7 @@ import { ImageService } from './services/image.service';
 import { ManagementModule } from './management/management.module';
 import { CachingInterceptor } from './services/caching.interceptor';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
+import { TocModule } from './toc/toc.module';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
     TimelineModule,
     AccountModule,
     ManagementModule,
+    TocModule,
     AppRoutingModule
   ],
   providers: [

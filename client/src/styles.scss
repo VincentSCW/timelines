@@ -6,15 +6,3 @@ $menu-item-active-background-color: $primary;
 
 @import "../node_modules/bulma/bulma";
 @import './styles/main.scss';
-
-body {
-  background-color: $white-bis
-}
-
-.page-h {
-  padding: 0 20px;
-}
-
-::-webkit-scrollbar { 
-    display: none; 
-}

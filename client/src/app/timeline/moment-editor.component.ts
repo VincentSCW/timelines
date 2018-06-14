@@ -10,8 +10,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-moment-editor',
-	templateUrl: './moment-editor.component.html',
-	styleUrls: ['./moment-editor.component.css']
+	templateUrl: './moment-editor.component.html'
 })
 
 export class MomentEditorComponent implements OnInit, OnDestroy {

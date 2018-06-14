@@ -4,8 +4,13 @@
 		<mat-sidenav #sidenav mode="side" opened="true" class="app-sidebar">
 			<app-sidebar></app-sidebar>
 		</mat-sidenav>
-		<mat-sidenav-content class="main-content">
+		<mat-sidenav-content>
 			<router-outlet></router-outlet>
 		</mat-sidenav-content>
 	</mat-sidenav-container>
+</div>
+
+<div class="toc-container" [style.max-height.px]="tocMaxHeight" 
+	(mousewheel)="restrainScrolling($event)">
+	<app-toc></app-toc>
 </div>

@@ -15,8 +15,7 @@ import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css']
+  templateUrl: './timeline.component.html'
 })
 export class TimelineComponent implements OnInit, OnDestroy {
   timeline: Timeline;
