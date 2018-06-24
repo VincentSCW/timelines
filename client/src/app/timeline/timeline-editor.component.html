@@ -43,7 +43,7 @@
     </div>
     <div class="field">
       <div class="control">
-        <mat-slide-toggle name="isCompleted" [(ngModel)]="isCompleted">Completed?</mat-slide-toggle>
+        <mat-slide-toggle name="isCompleted" [(ngModel)]="model.isCompleted">Completed?</mat-slide-toggle>
       </div>
     </div>
     <button-group (submit)="onSubmit(form.value)" (cancel)="onCancel()" [isValid]="form.valid"></button-group>

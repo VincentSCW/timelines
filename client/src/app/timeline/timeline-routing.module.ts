@@ -16,7 +16,7 @@ const timelineRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'manage/:timeline',
+        path: ':timeline/edit',
         component: TimelineEditorComponent,
         canActivate: [AuthGuard]
       },

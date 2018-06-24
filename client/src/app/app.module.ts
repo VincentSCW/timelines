@@ -19,7 +19,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { ImageService } from './services/image.service';
 import { ManagementModule } from './management/management.module';
-import { CachingInterceptor } from './services/caching.interceptor';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { TocModule } from './toc/toc.module';
 import { FooterComponent } from './footer.component';
