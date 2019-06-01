@@ -29,21 +29,18 @@
     </div>
   </aside>
 
-  <div class="level is-mobile bottom-actions">
+  <div class="level is-mobile bottom-actions" >
     <div class="level-left">
-      <a class="button is-info" href="https://github.com/VincentSCW/timelines">
-        <span class="icon">
-          <i class="fab fa-github"></i>
-        </span>
-        <span>Github</span>
+      <a class="level-item button is-danger is-small" (click)="onDeleteTimelineClicked()">
+        删除当前轴
       </a>
     </div>
-    <div class="level-right" *ngIf="editable$ | async">
+    <div class="level-right" >
       <a class="level-item button is-info is-small" (click)="onCreateTimelineClicked()">
-        新建
+        新建轴
       </a>
       <a class="level-item button is-info is-small" (click)="onAddMomentClicked()">
-        添加
+        添加Moment
       </a>
     </div>
   </div>
