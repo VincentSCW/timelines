@@ -24,7 +24,7 @@ namespace TimelinesAPI.Controllers
         public async Task<IActionResult> GetTimelines()
         {
 	        var timelines = await _timelineTableStorage.GetListAsync(MockUser.Username);
-	        return Ok(timelines.Select(x =>
+	        return Ok(timelines.OrderBy(x => x.StartTime).Select(x =>
 		        new TimelineModel
 		        {
 			        PeriodGroupLevel = x.PeriodGroupLevel,
@@ -32,7 +32,8 @@ namespace TimelinesAPI.Controllers
 			        Username = x.PartitionKey,
 			        TopicKey = x.RowKey,
 			        Title = x.Title,
-					IsCompleted = x.IsCompleted
+					IsCompleted = x.IsCompleted,
+                    StartTime = x.StartTime
 		        }
 	        ));
         }
@@ -52,7 +53,8 @@ namespace TimelinesAPI.Controllers
 				Username = x.PartitionKey,
 				TopicKey = x.RowKey,
 				Title = x.Title,
-				IsCompleted = x.IsCompleted
+				IsCompleted = x.IsCompleted,
+                StartTime = x.StartTime
 			});
 		}
 
@@ -67,7 +69,8 @@ namespace TimelinesAPI.Controllers
 				ProtectLevel = model.ProtectLevel,
 				PeriodGroupLevel = model.PeriodGroupLevel,
 				Title = model.Title,
-				IsCompleted = model.IsCompleted
+				IsCompleted = model.IsCompleted,
+                StartTime = model.StartTime
 			};
 
 	        var succeed = await _timelineTableStorage.InsertOrReplaceAsync(entity);
@@ -78,7 +81,8 @@ namespace TimelinesAPI.Controllers
 			        Username = entity.PartitionKey,
 			        TopicKey = entity.RowKey,
 			        Title = entity.Title,
-					IsCompleted = entity.IsCompleted
+					IsCompleted = entity.IsCompleted,
+                    StartTime = entity.StartTime
 		        });
 	        else
 		        return BadRequest();

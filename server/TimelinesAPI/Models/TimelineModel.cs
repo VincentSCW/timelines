@@ -19,5 +19,6 @@ namespace TimelinesAPI.Models
 	    [JsonConverter(typeof(StringEnumConverter))]
 		public PeriodGroupLevel PeriodGroupLevel { get; set; }
 		public bool IsCompleted { get; set; }
+        public DateTime StartTime { get; set; }
     }
 }
