@@ -60,7 +60,7 @@ namespace TimelinesAPI.Controllers
 		}
 
 		[HttpPost]
-		//[Authorize]
+		[Authorize]
 		[ProducesResponseType(typeof(TimelineModel), 200)]
 		public async Task<IActionResult> AddOrUpdateTimeline([FromBody]TimelineModel model)
         {
