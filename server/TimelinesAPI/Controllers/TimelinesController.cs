@@ -48,6 +48,7 @@ namespace TimelinesAPI.Controllers
 
 			return Ok(new TimelineModel
 			{
+                AccessKey = x.AccessKey,
 				PeriodGroupLevel = x.PeriodGroupLevel,
 				ProtectLevel = x.ProtectLevel,
 				Username = x.PartitionKey,
@@ -59,7 +60,7 @@ namespace TimelinesAPI.Controllers
 		}
 
 		[HttpPost]
-		[Authorize]
+		//[Authorize]
 		[ProducesResponseType(typeof(TimelineModel), 200)]
 		public async Task<IActionResult> AddOrUpdateTimeline([FromBody]TimelineModel model)
         {
@@ -76,6 +77,7 @@ namespace TimelinesAPI.Controllers
 	        var succeed = await _timelineTableStorage.InsertOrReplaceAsync(entity);
 	        if (succeed)
 		        return Ok(new TimelineModel {
+                    AccessKey = entity.AccessKey,
 			        PeriodGroupLevel = entity.PeriodGroupLevel,
 			        ProtectLevel = entity.ProtectLevel,
 			        Username = entity.PartitionKey,
