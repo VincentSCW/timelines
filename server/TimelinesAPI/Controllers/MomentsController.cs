@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TimelinesAPI.DataVaults;
@@ -13,10 +14,13 @@ namespace TimelinesAPI.Controllers
     public class MomentsController : Controller
     {
         private readonly MomentTableStorageVaults _momentTableStorage;
+        private IMapper _mapper;
 
-        public MomentsController(MomentTableStorageVaults tableStorage)
+        public MomentsController(MomentTableStorageVaults tableStorage,
+            IMapper mapper)
         {
             _momentTableStorage = tableStorage;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -24,8 +28,7 @@ namespace TimelinesAPI.Controllers
         public async Task<IActionResult> GetMomentsByTimeline([FromQuery]string timeline)
         {
             var moments = await _momentTableStorage.GetListAsync($"{MockUser.Username}_{timeline}");
-            return Ok(moments.Select(x =>
-                new MomentModel {TopicKey = x.PartitionKey, RecordDate = x.RowKey, Content = x.Content}));
+            return Ok(moments.Select(x => _mapper.Map<MomentModel>(x)));
         }
 
         [HttpPost]
@@ -45,7 +48,7 @@ namespace TimelinesAPI.Controllers
                 await _momentTableStorage.InsertOrReplaceAsync(entity);
 
             if (succeed)
-                return Ok(new MomentModel{TopicKey = entity.PartitionKey, RecordDate = entity.RowKey, Content = entity.Content});
+                return Ok(_mapper.Map<MomentModel>(entity));
             else
                 return BadRequest();
         }
