@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TimelinesAPI.DataVaults;
@@ -13,10 +14,13 @@ namespace TimelinesAPI.Controllers
     public class TimelinesController : Controller
     {
 	    private readonly TimelineTableStorageVaults _timelineTableStorage;
+        private readonly IMapper _mapper;
 
-		public TimelinesController(TimelineTableStorageVaults timelineTableStorage)
+		public TimelinesController(TimelineTableStorageVaults timelineTableStorage,
+            IMapper mapper)
 	    {
 		    _timelineTableStorage = timelineTableStorage;
+            _mapper = mapper;
 	    }
 
         [HttpGet]
@@ -24,18 +28,7 @@ namespace TimelinesAPI.Controllers
         public async Task<IActionResult> GetTimelines()
         {
 	        var timelines = await _timelineTableStorage.GetListAsync(MockUser.Username);
-	        return Ok(timelines.OrderBy(x => x.StartTime).Select(x =>
-		        new TimelineModel
-		        {
-			        PeriodGroupLevel = x.PeriodGroupLevel,
-			        ProtectLevel = x.ProtectLevel,
-			        Username = x.PartitionKey,
-			        TopicKey = x.RowKey,
-			        Title = x.Title,
-					IsCompleted = x.IsCompleted,
-                    StartTime = x.StartTime
-		        }
-	        ));
+	        return Ok(timelines.OrderBy(x => x.StartTime).Select(x => _mapper.Map<TimelineModel>(x)));
         }
 
 		[HttpGet("{topicKey}")]
@@ -46,17 +39,7 @@ namespace TimelinesAPI.Controllers
 			if (x == null)
 				return NotFound();
 
-			return Ok(new TimelineModel
-			{
-                AccessKey = x.AccessKey,
-				PeriodGroupLevel = x.PeriodGroupLevel,
-				ProtectLevel = x.ProtectLevel,
-				Username = x.PartitionKey,
-				TopicKey = x.RowKey,
-				Title = x.Title,
-				IsCompleted = x.IsCompleted,
-                StartTime = x.StartTime
-			});
+			return Ok(_mapper.Map<TimelineModel>(x));
 		}
 
 		[HttpPost]
@@ -76,16 +59,7 @@ namespace TimelinesAPI.Controllers
 
 	        var succeed = await _timelineTableStorage.InsertOrReplaceAsync(entity);
 	        if (succeed)
-		        return Ok(new TimelineModel {
-                    AccessKey = entity.AccessKey,
-			        PeriodGroupLevel = entity.PeriodGroupLevel,
-			        ProtectLevel = entity.ProtectLevel,
-			        Username = entity.PartitionKey,
-			        TopicKey = entity.RowKey,
-			        Title = entity.Title,
-					IsCompleted = entity.IsCompleted,
-                    StartTime = entity.StartTime
-		        });
+		        return Ok(_mapper.Map<TimelineModel>(entity));
 	        else
 		        return BadRequest();
 		}

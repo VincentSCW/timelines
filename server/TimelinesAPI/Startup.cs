@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -53,10 +54,14 @@ namespace TimelinesAPI
 
 	        services.AddSingleton<SimpleCacheService<List<MomentEntity>>>();
 	        services.AddSingleton<SimpleCacheService<List<TimelineEntity>>>();
+            services.AddSingleton<SimpleCacheService<List<RecordEntity>>>();
 
 			services.AddSingleton<MomentTableStorageVaults>();
 	        services.AddSingleton<TimelineTableStorageVaults>();
 	        services.AddSingleton<BlobStorageVaults>();
+            services.AddSingleton<RecordTableStorageVaults>();
+
+            services.AddAutoMapper(this.GetType().Assembly);
 
 	        services.AddAuthenticationOAuth(jwtSettings);
 
