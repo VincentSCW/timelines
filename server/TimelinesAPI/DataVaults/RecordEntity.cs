@@ -8,12 +8,13 @@ namespace TimelinesAPI.DataVaults
 {
     public class RecordEntity : TableEntity
     {
-        public RecordEntity(int yearAsKey)
-            : base(yearAsKey.ToString(), KeyGenerator.NewKey())
+        public RecordEntity(string yearAsKey)
+            : base(yearAsKey, KeyGenerator.NewKey())
         { }
 
         public RecordEntity() { }
 
+        public DateTime Date { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }

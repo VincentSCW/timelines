@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimelinesAPI.DataVaults;
+using TimelinesAPI.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,42 +15,53 @@ namespace TimelinesAPI.Controllers
     public class RecordsController : Controller
     {
         private readonly RecordTableStorageVaults _recordTableStorageVaults;
+        private readonly IMapper _mapper;
 
-        public RecordsController(RecordTableStorageVaults recordTableStorageVaults)
+        public RecordsController(RecordTableStorageVaults recordTableStorageVaults,
+            IMapper mapper)
         {
             _recordTableStorageVaults = recordTableStorageVaults;
+            _mapper = mapper;
         }
 
-        // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType(typeof(List<RecordModel>), 200)]
+        public async Task<IActionResult> GetRecordsByYear([FromQuery]int year)
         {
-            return new string[] { "value1", "value2" };
+            var records = await _recordTableStorageVaults.GetListAsync($"{MockUser.Username}_{year}");
+            return Ok(records.Select(x => _mapper.Map<RecordModel>(x)));
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        [ProducesResponseType(typeof(RecordModel), 200)]
+        public async Task<IActionResult> AddOrUpdateRecord([FromBody]RecordModel model)
         {
+            var value = await _recordTableStorageVaults.GetAsync($"{MockUser.Username}_{model.Date.Year}", model.Key);
+
+            if (value == null)
+            {
+                value = new RecordEntity($"{MockUser.Username}_{model.Date.Year}");
+            }
+            value.Date = model.Date;
+            value.Description = model.Description;
+            value.ImageUrl = model.ImageUrl;
+            value.Title = model.Title;
+
+            var succeed = await _recordTableStorageVaults.InsertOrReplaceAsync(value);
+            if (succeed)
+                return Ok(_mapper.Map<RecordModel>(value));
+            else
+                return BadRequest();
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpDelete("{year}/{key}")]
+        public async Task<IActionResult> DeleteRecord(int year, string key)
         {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var succeed = await _recordTableStorageVaults.DeleteAsync($"{MockUser.Username}_{year}", key);
+            if (succeed)
+                return NoContent();
+            else
+                return BadRequest();
         }
     }
 }

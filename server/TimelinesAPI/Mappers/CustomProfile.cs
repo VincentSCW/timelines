@@ -23,6 +23,7 @@ namespace TimelinesAPI.Mappers
                 .ReverseMap();
 
             CreateMap<RecordEntity, RecordModel>()
+                .ForMember(x => x.Key, opt => opt.MapFrom(y => y.RowKey))
                 .ReverseMap();
         }
     }
