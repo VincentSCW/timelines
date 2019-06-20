@@ -1,19 +1,42 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { MomentEditorComponent } from './timeline/moment-editor.component';
+import { Observable } from 'rxjs/Observable';
+import { Timeline } from './models/timeline.model';
+import { TimelineService } from './services/timeline.service';
+import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
 	selector: 'app-navbar',
 	templateUrl: './navbar.component.html'
 })
 
-export class NavbarComponent {
-	@Output() toggleSidenav = new EventEmitter<void>();
+export class NavbarComponent implements OnInit {
+	timelines$: Observable<Timeline[]>;
+	editable$: Observable<boolean>;
+	burgerActive: boolean;
 
-	constructor() {
-
+	constructor(private timelineService: TimelineService,
+		private router: Router,
+		private authSvc: AuthService) {
+		this.editable$ = authSvc.isLoggedIn;
 	}
 
-	toggleMenu() {
-		this.toggleSidenav.emit();
+	ngOnInit() {
+		this.timelines$ = this.timelineService.getTimelines();
+	}
+
+	onTimelineClicked(timeline: Timeline) {
+		this.router.navigateByUrl(`/timeline/${timeline.topicKey}`);
+		this.timelineService.activeTimeline = timeline;
+	}
+
+	onCreateTimelineClicked() {
+		this.router.navigateByUrl('/timeline/create');
+	}
+
+	onManageClick() {
+		this.router.navigateByUrl('manage/images');
 	}
 }

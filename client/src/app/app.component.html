@@ -1,17 +1,9 @@
-<app-navbar (toggleSidenav)="sidenav.toggle()"></app-navbar>
-<div class="main">
-	<mat-sidenav-container>
-		<mat-sidenav #sidenav mode="side" opened="true" class="app-sidebar">
-			<app-sidebar></app-sidebar>
-		</mat-sidenav>
-		<mat-sidenav-content>
-			<router-outlet></router-outlet>
-		</mat-sidenav-content>
-	</mat-sidenav-container>
+<app-navbar></app-navbar>
+<div class="main container">
+	<router-outlet></router-outlet>
 </div>
 
-<div class="toc-container" [style.max-height.px]="tocMaxHeight" 
-	(mousewheel)="restrainScrolling($event)">
+<div class="toc-container" [style.max-height.px]="tocMaxHeight" (mousewheel)="restrainScrolling($event)">
 	<app-toc></app-toc>
 </div>
 
