@@ -3,7 +3,17 @@
     <div class="level">
       <div class="level-left">
         <h1 class="level-item title">{{timeline?.title}}</h1>
-      </div>  
+        <a *ngIf="editable$ | async" matTooltip="Edit" class="level-item" (click)="onEditTimelineClicked()">
+          <span class="icon is-small">
+            <i class="fa fa-edit"></i>
+          </span>
+        </a>
+        <a *ngIf="editable$ | async" matTooltip="Delete" class="level-item" (click)="onDeleteTimelineClicked()">
+          <span class="icon is-small">
+            <i class="fa fa-trash-alt"></i>
+          </span>
+        </a>
+      </div>
       <div class="level-right">
         <div class="field has-addons">
           <p class="control">

@@ -33,7 +33,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private authSvc: AuthService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private title: Title) { 
+    private title: Title,
+    private router: Router) { 
     this.groupedMoments = new Array();
     this.loaded = false;
     this.editable$ = authSvc.isLoggedIn;
@@ -80,20 +81,30 @@ export class TimelineComponent implements OnInit, OnDestroy {
     switch (level) {
       case PeriodGroupLevel.byDay:
         groupKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });  
-        break;  
+        break;
       case PeriodGroupLevel.byMonth:
         groupKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
         break;
       case PeriodGroupLevel.byYear:
         groupKey = date.toLocaleDateString('en-US', { year: 'numeric' });  
-        break;  
+        break;
     }
 
-    let grouped = this.groupedMoments.find(g => g.group == groupKey);
+    const grouped = this.groupedMoments.find(g => g.group == groupKey);
     if (grouped == null) {
       this.groupedMoments.push({ group: groupKey, moments: [m] });
     } else {
       grouped.moments.push(m);
+    }
+  }
+
+  onEditTimelineClicked() {
+    this.router.navigateByUrl(`timeline/${this.timeline.topicKey}/edit`);
+  }
+
+  onDeleteTimelineClicked() {
+    if (confirm('确定要删除吗？')) {
+      this.timelineService.deleteTimeline(this.timeline.topicKey).toPromise();
     }
   }
 }

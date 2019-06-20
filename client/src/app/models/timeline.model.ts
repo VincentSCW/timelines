@@ -18,4 +18,5 @@ export interface Timeline {
   accessKey?: string;
   periodGroupLevel: PeriodGroupLevel;
   isCompleted: boolean;
+  startTime?: Date;
 }

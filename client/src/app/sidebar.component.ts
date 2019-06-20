@@ -52,12 +52,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDeleteTimelineClicked() {
-    if (confirm('确定要删除吗？')) {
-      this.timelineService.deleteTimeline(this.timelineService.activeTimeline.topicKey).toPromise();
-    }
-  }
-
   onImageClicked() {
     this.router.navigateByUrl('manage/images');
     this.activeTopicKey = 'images';

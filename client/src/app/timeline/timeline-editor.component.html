@@ -43,9 +43,17 @@
     </div>
     <div class="field">
       <div class="control">
+        <mat-form-field>
+          <input matInput required name="startTime" [(ngModel)]="model.startTime" placeholder="Start Time">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
         <mat-slide-toggle name="isCompleted" [(ngModel)]="model.isCompleted">Completed?</mat-slide-toggle>
       </div>
     </div>
+    
     <button-group (submit)="onSubmit(form.value)" (cancel)="onCancel()" [isValid]="form.valid"></button-group>
   </form>
 </div>

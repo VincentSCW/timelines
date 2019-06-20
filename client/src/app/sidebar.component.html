@@ -29,11 +29,9 @@
     </div>
   </aside>
 
-  <div class="level is-mobile bottom-actions" >
+  <div class="level is-mobile bottom-actions" *ngIf="editable$ | async">
     <div class="level-left">
-      <a class="level-item button is-danger is-small" (click)="onDeleteTimelineClicked()">
-        删除当前轴
-      </a>
+      
     </div>
     <div class="level-right" >
       <a class="level-item button is-info is-small" (click)="onCreateTimelineClicked()">
