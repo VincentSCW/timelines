@@ -22,7 +22,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   groupedMoments: GroupedMoments[];
   loaded: boolean;
   editable$: Observable<boolean>;
-  align: number = 0;
+  align: number = -1;
 
   private timelineSubscription: Subscription;
   private momentsSubscription: Subscription;
@@ -51,7 +51,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
       
       this.timeline = t;
       this.timelineService.activeTimeline = this.timeline;
-      this.align = this.timeline.periodGroupLevel == PeriodGroupLevel.byDay ? -1 : 0;
       this.title.setTitle(`${t.title} | 时间轴`);
       this.momentsSubscription = this.timelineService.getMoments(t.topicKey).subscribe(x => {
         x.map((m) => {
