@@ -17,4 +17,12 @@ export class ImageService {
       { params: new HttpParams().set('timeline', timeline) } : {};  
     return this.http.get<string[]>(`${this.baseUrl}/api/images`, options);
   }
+
+  uploadImage(image: File): Observable<any> {
+    const formData = new FormData();
+
+    formData.append('image', image);
+
+    return this.http.post<any>(`${this.baseUrl}/api/Images/upload?folder=_records`, formData);
+  }
 }

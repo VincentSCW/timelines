@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Record } from '../../models/record.model';
+import { RecordService } from '../../services/record.service';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-record-editor',
@@ -13,21 +16,36 @@ export class RecordEditorComponent implements OnInit {
     imageUrl: ''
   };
 
-  constructor() { }
+  selectedFile: File
+
+  constructor(private recordService: RecordService,
+    private imageService: ImageService,
+    private dialogRef: MatDialogRef<RecordEditorComponent>) { }
 
   ngOnInit() {
     
   }
 
-  onUploadClicked() {
-
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0]
   }
 
-  onSubmit() {
+  onUploadClicked() {
+    this.imageService.uploadImage(this.selectedFile)
+      .subscribe(ret => this.model.imageUrl = ret.url,
+        error => {
+          alert('Failed!');
+          console.error(error);
+        });
+  }
 
+  onSubmit(data: Record) {
+    console.log(data);
+    this.recordService.insertOrReplaceRecord(data).toPromise()
+      .then((_) => this.dialogRef.close());
   }
 
   onCancel() {
-    
+    this.dialogRef.close();
   }
 }

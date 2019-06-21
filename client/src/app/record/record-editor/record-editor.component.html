@@ -1,27 +1,38 @@
-<div class="t-content">
+<div class="center-dialog">
   <section class="section">
     <h2 class="subtitle">刻编辑</h2>
   </section>
   <form name="form" #form="ngForm">
     <div class="field">
       <div class="control">
-        <input matInput required name="date" [(ngModel)]="model.date" placeholder="Date">
+        <mat-form-field>
+          <input matInput required name="date" [(ngModel)]="model.date" placeholder="Date">
+        </mat-form-field>
       </div>
     </div>
     <div class="field">
       <div class="control">
-        <input matInput required name="title" [(ngModel)]="model.title" placeholder="Title">
+        <mat-form-field>
+          <input matInput required name="title" [(ngModel)]="model.title" placeholder="Title">
+        </mat-form-field>
       </div>
     </div>
     <div class="field">
       <div class="control">
-        <textarea matInput name="description" [(ngModel)]="model.description" placeholder="Description"></textarea>
+        <mat-form-field>
+          <textarea style="min-width: 25rem" matInput name="description" [(ngModel)]="model.description"
+            placeholder="Description"></textarea>
+        </mat-form-field>
       </div>
     </div>
     <div class="field">
       <div class="control">
         <img [src]="model.imageUrl">
-        <a class="button is-primary" (click)="onUploadClicked()">选择图片上传</a>
+        <input type="file" (change)="onFileChanged($event)">
+        <mat-form-field>
+          <input matInput name="imageUrl" [(ngModel)]="model.imageUrl" placeholder="Image Url">
+        </mat-form-field>
+        <a class="button is-primary" (click)="onUploadClicked()">上传</a>
       </div>
     </div>
 

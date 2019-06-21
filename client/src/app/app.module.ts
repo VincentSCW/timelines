@@ -21,6 +21,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
 import { ImageService } from './services/image.service';
 import { FooterComponent } from './footer.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { RecordService } from './services/record.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { PageNotFoundComponent } from './page-not-found.component';
     AuthService,
     AuthGuard,
     TimelineService,
+    RecordService,
     ImageService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],

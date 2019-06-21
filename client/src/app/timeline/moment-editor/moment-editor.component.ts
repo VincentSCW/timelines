@@ -51,7 +51,7 @@ export class MomentEditorComponent implements OnInit, OnDestroy {
 		}
 		this.timelineSub = this.service.activeTimeline$.subscribe(t => {
 			this.timeline = t;
-			this.editorConfig.imageEndPoint = this.editorConfig.imageEndPoint + `?timeline=${t.topicKey}`;
+			this.editorConfig.imageEndPoint = this.editorConfig.imageEndPoint + `?folder=${t.topicKey}`;
 		});
 	}
 

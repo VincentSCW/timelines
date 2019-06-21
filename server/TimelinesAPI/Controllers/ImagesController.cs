@@ -37,13 +37,15 @@ namespace TimelinesAPI.Controllers
 		}
 
 		[HttpPost("upload")]
-		[Authorize]
+		//[Authorize]
 		[RequestSizeLimit(5_000_000)] // up to 5 mb
-		public async Task<IActionResult> Upload([FromQuery] string timeline)
+		public async Task<IActionResult> Upload([FromQuery] string folder)
 		{
 			try
 			{
 				var file = HttpContext.Request.Form.Files["file"];
+                if (file == null)
+                    file = HttpContext.Request.Form.Files[0];
 
 				var localFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
 				var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "uploadedImage");
@@ -74,7 +76,7 @@ namespace TimelinesAPI.Controllers
 				//	filePath = resized;
 				//}
 
-				var path = await _blobStorage.UploadImageAsync(MockUser.Username, timeline, filePath);
+				var path = await _blobStorage.UploadImageAsync(MockUser.Username, folder, filePath);
 
 				System.IO.File.Delete(filePath);
 				if (path == null)

@@ -36,7 +36,9 @@ namespace TimelinesAPI.Controllers
         [ProducesResponseType(typeof(RecordModel), 200)]
         public async Task<IActionResult> AddOrUpdateRecord([FromBody]RecordModel model)
         {
-            var value = await _recordTableStorageVaults.GetAsync($"{MockUser.Username}_{model.Date.Year}", model.Key);
+            RecordEntity value = null;
+            if (model.Key != null)
+                value = await _recordTableStorageVaults.GetAsync($"{MockUser.Username}_{model.Date.Year}", model.Key);
 
             if (value == null)
             {
