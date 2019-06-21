@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEditorModule } from 'ngx-editor';
+import { CarouselModule } from 'ngx-bootstrap';
 
 import { MaterialModule } from './material.module';
 import { ControlsModule } from './controls/controls.module';
@@ -24,7 +25,8 @@ import { ControlsModule } from './controls/controls.module';
     MaterialModule,
     BrowserAnimationsModule,
     NgxEditorModule,
-    ControlsModule
+    ControlsModule,
+    CarouselModule
   ],
   exports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { ControlsModule } from './controls/controls.module';
     MaterialModule,
     BrowserAnimationsModule,
     NgxEditorModule,
-    ControlsModule
+    ControlsModule,
+    CarouselModule
   ]
 })
 

@@ -23,7 +23,6 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
-    "angular2-carousel": "^1.0.17",
     "angular2-jwt": "^0.2.3",
     "bulma": "^0.7.1",
     "bulma-calendar": "^1.1.2",
