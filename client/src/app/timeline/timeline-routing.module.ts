@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from "@angular/router";
 
-import { TimelineEditorComponent } from "./timeline-editor.component";
+import { TimelineEditorComponent } from "./timeline-editor/timeline-editor.component";
 import { AuthGuard } from "../services/auth-guard.service";
 import { TimelineComponent } from "./timeline.component";
 import { TimelineAccessGuard } from "../services/timeline-access-guard.service";

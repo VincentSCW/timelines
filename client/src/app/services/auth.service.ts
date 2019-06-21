@@ -15,7 +15,7 @@ const User_CacheKey = 'user_info';
 
 @Injectable()
 export class AuthService {
-  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   redirectUrl: string;
 
   public static getProvider(accountType: string, authService: AuthService)
@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    this.isLoggedIn.next(this.isAccessTokenValid());
+    this.isLoggedIn$.next(this.isAccessTokenValid());
   }
 
   get accessToken(): string {
@@ -56,7 +56,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(AccessToken_CacheKey);
     localStorage.removeItem(User_CacheKey);
-    this.isLoggedIn.next(false);
+    this.isLoggedIn$.next(false);
     this.router.navigate(['']);
   }
 
@@ -67,7 +67,7 @@ export class AuthService {
     if (userWithToken != null && userWithToken.user != null) {
       this.user = userWithToken.user;
       this.accessToken = userWithToken.accessToken;
-      this.isLoggedIn.next(true);
+      this.isLoggedIn$.next(true);
     }
   }
 

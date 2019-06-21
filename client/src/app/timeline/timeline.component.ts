@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
-import { MomentEditorComponent } from './moment-editor.component';
+import { MomentEditorComponent } from './moment-editor/moment-editor.component';
 import { Timeline, PeriodGroupLevel } from '../models/timeline.model';
 import { AuthService } from '../services/auth.service';
 

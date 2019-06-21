@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { MomentEditorComponent } from './timeline/moment-editor.component';
+import { MomentEditorComponent } from './timeline/moment-editor/moment-editor.component';
 import { Observable } from 'rxjs/Observable';
 import { Timeline } from './models/timeline.model';
 import { TimelineService } from './services/timeline.service';
@@ -15,25 +15,30 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class NavbarComponent implements OnInit, OnDestroy {
 	timelines$: Observable<Timeline[]>;
-	editable$: Observable<boolean>;
+	editable: boolean;
 	activeTopicKey: string;
 	burgerActive: boolean;
+	years: number[] = new Array<number>();
 
 	private timelineSub: Subscription;
+	private editableSub: Subscription;
 
 	constructor(private timelineService: TimelineService,
 		private router: Router,
 		private authSvc: AuthService) {
-		this.editable$ = authSvc.isLoggedIn;
+
+		this.getYears();
 	}
 
 	ngOnInit() {
 		this.timelines$ = this.timelineService.getTimelines();
 		this.timelineSub = this.timelineService.activeTimeline$.subscribe(t => this.activeTopicKey = t.topicKey);
+		this.editableSub = this.authSvc.isLoggedIn$.subscribe(l => this.editable = l);
 	}
 
 	ngOnDestroy() {
 		if (!!this.timelineSub) { this.timelineSub.unsubscribe(); }
+		if (!!this.editableSub) { this.editableSub.unsubscribe(); }
 	}
 
 	onTimelineClicked(timeline: Timeline) {
@@ -41,11 +46,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
 		this.timelineService.activeTimeline = timeline;
 	}
 
-	onCreateTimelineClicked() {
-		this.router.navigateByUrl('/timeline/create');
+	onRecordYearClicked(year: number) {
+		this.router.navigateByUrl(`/records/${year}`);
 	}
 
-	onManageClick() {
-		this.router.navigateByUrl('manage/images');
+	getYears() {
+		var today = new Date();
+		for (var i = 2017; i <= today.getFullYear(); i++) {
+			this.years.push(i);
+		}
 	}
 }

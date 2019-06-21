@@ -29,8 +29,8 @@
 								<i class="fas fa-lock"></i>
 							</span>
 						</a>
-						<hr class="navbar-divider" *ngIf="editable$ | async">
-						<a class="navbar-item" (click)="onCreateTimelineClicked()" *ngIf="editable$ | async">
+						<hr class="navbar-divider" *ngIf="editable">
+						<a class="navbar-item" routerLink="/timeline/create" *ngIf="editable">
 							Add New
 						</a>
 					</div>
@@ -39,8 +39,14 @@
 					<a class="navbar-link">
 						记录
 					</a>
+					<div class="navbar-dropdown">
+						<a class="navbar-item is-tab"
+							*ngFor="let item of years" (click)="onRecordYearClicked(item)">
+							{{item}} 年
+						</a>
+					</div>
 				</div>
-				<a class="navbar-item" (click)="onManageClick()" *ngIf="editable$ | async">
+				<a class="navbar-item" routerLink="/manage/images" *ngIf="editable">
 					管理
 				</a>
 			</div>

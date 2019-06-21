@@ -10,7 +10,7 @@ import { AccountModule } from './account/account.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar.component';
 import { MainComponent } from './main.component';
-import { AccessKeyDialogComponent } from './timeline/access-key-dialog.component';
+import { AccessKeyDialogComponent } from './timeline/access-key-dialog/access-key-dialog.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { TimelineService } from './services/timeline.service';
