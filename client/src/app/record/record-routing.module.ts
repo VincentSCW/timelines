@@ -8,8 +8,13 @@ const recordRoutes: Routes = [
   {
     path: 'records',
     children: [
+
       {
-        path: 'create',
+        path: ':year',
+        component: RecordViewComponent
+      },
+      {
+        path: ':year/create',
         component: RecordEditorComponent,
         canActivate: [AuthGuard]
       },
@@ -18,10 +23,7 @@ const recordRoutes: Routes = [
         component: RecordEditorComponent,
         canActivate: [AuthGuard]
       },
-      {
-        path: ':record',
-        component: RecordViewComponent
-      }
+      
     ]
   }
 ];

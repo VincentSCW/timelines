@@ -24,7 +24,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 	private editableSub: Subscription;
 
 	constructor(private timelineService: TimelineService,
-		private router: Router,
 		private authSvc: AuthService) {
 
 		this.getYears();
@@ -39,15 +38,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		if (!!this.timelineSub) { this.timelineSub.unsubscribe(); }
 		if (!!this.editableSub) { this.editableSub.unsubscribe(); }
-	}
-
-	onTimelineClicked(timeline: Timeline) {
-		this.router.navigateByUrl(`/timeline/${timeline.topicKey}`);
-		this.timelineService.activeTimeline = timeline;
-	}
-
-	onRecordYearClicked(year: number) {
-		this.router.navigateByUrl(`/records/${year}`);
 	}
 
 	getYears() {

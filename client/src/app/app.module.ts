@@ -6,6 +6,8 @@ import { SharedModule } from './shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { TimelineModule } from './timeline/timeline.module';
 import { AccountModule } from './account/account.module';
+import { RecordModule } from './record/record.module';
+import { ManagementModule } from './management/management.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar.component';
@@ -17,8 +19,8 @@ import { TimelineService } from './services/timeline.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { ImageService } from './services/image.service';
-import { ManagementModule } from './management/management.module';
 import { FooterComponent } from './footer.component';
+import { PageNotFoundComponent } from './page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -26,11 +28,13 @@ import { FooterComponent } from './footer.component';
     MainComponent,
     NavbarComponent,
     FooterComponent,
-    AccessKeyDialogComponent
+    AccessKeyDialogComponent,
+    PageNotFoundComponent
   ],
   imports: [
     SharedModule,
     TimelineModule,
+    RecordModule,
     AccountModule,
     ManagementModule,
     AppRoutingModule

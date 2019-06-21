@@ -23,7 +23,7 @@
 					</a>
 					<div class="navbar-dropdown">
 						<a class="navbar-item is-tab" [class.is-active]="activeTopicKey == item.topicKey"
-							*ngFor="let item of timelines$ | async" (click)="onTimelineClicked(item)">
+							*ngFor="let item of timelines$ | async" [routerLink]="['/timeline/', item.topicKey]">
 							{{item.title}}
 							<span class="icon level-item" *ngIf="item.protectLevel == 'Protected'">
 								<i class="fas fa-lock"></i>
@@ -41,7 +41,7 @@
 					</a>
 					<div class="navbar-dropdown">
 						<a class="navbar-item is-tab"
-							*ngFor="let item of years" (click)="onRecordYearClicked(item)">
+							*ngFor="let item of years" [routerLink]="['/records/', item]">
 							{{item}} 年
 						</a>
 					</div>

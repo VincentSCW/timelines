@@ -37,7 +37,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private router: Router) { 
     this.groupedMoments = new Array();
     this.loaded = false;
-    this.editable$ = authSvc.isLoggedIn;
+    this.editable$ = authSvc.isLoggedIn$;
   }
 
   ngOnInit() {
