@@ -26,7 +26,7 @@ import { ControlsModule } from './controls/controls.module';
     BrowserAnimationsModule,
     NgxEditorModule,
     ControlsModule,
-    CarouselModule
+    CarouselModule.forRoot()
   ],
   exports: [
     BrowserModule,

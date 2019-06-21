@@ -27,8 +27,8 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    //this.isLoggedIn$.next(this.isAccessTokenValid());
-    this.isLoggedIn$.next(true);
+    this.isLoggedIn$.next(this.isAccessTokenValid());
+    //this.isLoggedIn$.next(true);
   }
 
   get accessToken(): string {

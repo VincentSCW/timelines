@@ -37,7 +37,7 @@ namespace TimelinesAPI.Controllers
 		}
 
 		[HttpPost("upload")]
-		//[Authorize]
+		[Authorize]
 		[RequestSizeLimit(5_000_000)] // up to 5 mb
 		public async Task<IActionResult> Upload([FromQuery] string folder)
 		{
