@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
+import { RecordEditorComponent } from './record/record-editor/record-editor.component';
 
 @Component({
 	selector: 'app-navbar',
@@ -24,7 +25,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 	private editableSub: Subscription;
 
 	constructor(private timelineService: TimelineService,
-		private authSvc: AuthService) {
+		private authSvc: AuthService,
+		private dialog: MatDialog) {
 
 		this.getYears();
 	}
@@ -38,6 +40,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		if (!!this.timelineSub) { this.timelineSub.unsubscribe(); }
 		if (!!this.editableSub) { this.editableSub.unsubscribe(); }
+	}
+
+	async onAddNewRecordClicked() {
+		const dialogRef = this.dialog.open(RecordEditorComponent);
+		await dialogRef.afterClosed().toPromise();
 	}
 
 	getYears() {

@@ -14,7 +14,7 @@ const recordRoutes: Routes = [
         component: RecordViewComponent
       },
       {
-        path: ':year/create',
+        path: 'create',
         component: RecordEditorComponent,
         canActivate: [AuthGuard]
       },

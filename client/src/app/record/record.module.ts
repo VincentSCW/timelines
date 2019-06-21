@@ -9,6 +9,9 @@ import { RecordRoutingModule } from './record-routing.module';
     SharedModule,
     RecordRoutingModule
   ],
-  declarations: [RecordViewComponent, RecordEditorComponent]
+  declarations: [RecordViewComponent, RecordEditorComponent],
+  entryComponents: [
+    RecordEditorComponent
+  ]
 })
 export class RecordModule { }
