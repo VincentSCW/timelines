@@ -22,17 +22,12 @@
 						回忆轴
 					</a>
 					<div class="navbar-dropdown">
-						<a class="navbar-item" *ngFor="let item of timelines$ | async" (click)="onTimelineClicked(item)">
-							<div class="level is-mobile">
-								<div class="level-left">
-									{{item.title}}
-								</div>
-								<div class="level-right">
-									<span class="icon" *ngIf="item.protectLevel == 'Protected'">
-										<i class="fas fa-lock"></i>
-									</span>
-								</div>
-							</div>
+						<a class="navbar-item is-tab" [class.is-active]="activeTopicKey == item.topicKey"
+							*ngFor="let item of timelines$ | async" (click)="onTimelineClicked(item)">
+							{{item.title}}
+							<span class="icon level-item" *ngIf="item.protectLevel == 'Protected'">
+								<i class="fas fa-lock"></i>
+							</span>
 						</a>
 						<hr class="navbar-divider" *ngIf="editable$ | async">
 						<a class="navbar-item" (click)="onCreateTimelineClicked()" *ngIf="editable$ | async">
