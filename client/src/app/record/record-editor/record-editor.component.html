@@ -20,8 +20,7 @@
     <div class="field">
       <div class="control">
         <mat-form-field>
-          <textarea style="min-width: 25rem" matInput name="description" [(ngModel)]="model.description"
-            placeholder="Description"></textarea>
+          <input matInput name="location" [(ngModel)]="model.location" placeholder="location">
         </mat-form-field>
       </div>
     </div>
@@ -32,6 +31,7 @@
         <mat-form-field>
           <input matInput name="imageUrl" [(ngModel)]="model.imageUrl" placeholder="Image Url">
         </mat-form-field>
+        <input hidden name="thumbnailUrl" [(ngModel)]="model.thumbnailUrl">
         <a class="button is-primary" (click)="onUploadClicked()">上传</a>
       </div>
     </div>

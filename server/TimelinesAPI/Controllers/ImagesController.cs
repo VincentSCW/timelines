@@ -14,7 +14,9 @@ namespace TimelinesAPI.Controllers
 	[Route("api/[controller]")]
 	public class ImagesController : Controller
 	{
-		private readonly BlobStorageVaults _blobStorage;
+        private const int THUMBNAIL_PERCENTAGE = 10;
+
+        private readonly BlobStorageVaults _blobStorage;
 
 		public ImagesController(BlobStorageVaults blobStorage)
 		{
@@ -66,23 +68,21 @@ namespace TimelinesAPI.Controllers
 					stream.Close();
 				}
 
-				//if (new FileInfo(filePath).Length > 300000)
-				//{
-				//	var resized = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "uploadedImage",
-				//		Guid.NewGuid() + Path.GetExtension(file.FileName));
-				//	GetThumImage(filePath, 20000, 2, resized);
+                // Thumbnail
+                var image = Image.FromFile(filePath);
+                var thumb = image.GetThumbnailImage(image.Width / THUMBNAIL_PERCENTAGE, image.Height / THUMBNAIL_PERCENTAGE, () => false, IntPtr.Zero);
+                var thumbPath = Path.ChangeExtension(filePath, "thumb");
+                thumb.Save(thumbPath);
 
-				//	System.IO.File.Delete(filePath);
-				//	filePath = resized;
-				//}
+                var path = await _blobStorage.UploadImageAsync(MockUser.Username, folder, filePath);
+                path = await _blobStorage.UploadImageAsync(MockUser.Username, "_thumbnail", thumbPath);
 
-				var path = await _blobStorage.UploadImageAsync(MockUser.Username, folder, filePath);
-
-				System.IO.File.Delete(filePath);
-				if (path == null)
+                System.IO.File.Delete(filePath);
+                System.IO.File.Delete(thumbPath);
+                if (path == null)
 					throw new Exception("Upload to Azure failed.");
 
-				return Ok(new { url = path });
+				return Ok(new { url = path, thumbnail = thumbPath });
 			}
 			catch (Exception ex)
 			{

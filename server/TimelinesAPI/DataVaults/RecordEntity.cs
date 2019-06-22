@@ -16,7 +16,8 @@ namespace TimelinesAPI.DataVaults
 
         public DateTime Date { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
+        public string Location { get; set; }
         public string ImageUrl { get; set; }
+        public string ThumbnailUrl { get; set; }
     }
 }

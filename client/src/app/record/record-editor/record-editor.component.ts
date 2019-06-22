@@ -32,7 +32,10 @@ export class RecordEditorComponent implements OnInit {
 
   onUploadClicked() {
     this.imageService.uploadImage(this.selectedFile)
-      .subscribe(ret => this.model.imageUrl = ret.url,
+      .subscribe(ret => {
+        this.model.imageUrl = ret.url
+        this.model.thumbnailUrl = ret.thumbnail
+      },
         error => {
           alert('Failed!');
           console.error(error);

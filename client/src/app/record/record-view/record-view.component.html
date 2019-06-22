@@ -1,16 +1,5 @@
 <section class="section">
   <div>
-    <h1 class="title">{{year}} 年</h1>
-    <carousel [showIndicators]="false">
-      <slide *ngFor="let r of records">
-        <div>
-        <img [src]="r.imageUrl" class="record-img">
-        </div>
-        <div class="carousel-caption d-non d-md-block">
-          <h3 class="record-title">{{r.date | date: 'MM/dd'}} {{r.title}}</h3>
-          <p>{{r.description}}</p>
-        </div>
-      </slide>
-    </carousel>
+    <ngx-image-gallery [images]="images" [conf]="conf"></ngx-image-gallery>
   </div>
 </section>

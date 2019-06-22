@@ -45,9 +45,10 @@ namespace TimelinesAPI.Controllers
                 value = new RecordEntity($"{MockUser.Username}_{model.Date.Year}");
             }
             value.Date = model.Date;
-            value.Description = model.Description;
+            value.Location = model.Location;
             value.ImageUrl = model.ImageUrl;
             value.Title = model.Title;
+            value.ThumbnailUrl = model.ThumbnailUrl;
 
             var succeed = await _recordTableStorageVaults.InsertOrReplaceAsync(value);
             if (succeed)

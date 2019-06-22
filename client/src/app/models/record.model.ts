@@ -1,6 +1,7 @@
 export interface Record {
   date: Date;
   title: string;
-  description?: string;
+  location?: string;
   imageUrl: string;
+  thumbnailUrl?: string;
 }
