@@ -55,9 +55,10 @@ namespace TimelinesAPI.Controllers
 					Directory.CreateDirectory(directory);
 
 				var filePath = Path.Combine(directory, localFileName);
+                var thumbFilePath = Path.ChangeExtension(filePath, "thumb");
 
-				//Deletion exists file  
-				if (System.IO.File.Exists(filePath))
+                //Deletion exists file  
+                if (System.IO.File.Exists(filePath))
 				{
 					System.IO.File.Delete(filePath);
 				}
@@ -68,17 +69,18 @@ namespace TimelinesAPI.Controllers
 					stream.Close();
 				}
 
-                // Thumbnail
-                var image = Image.FromFile(filePath);
-                var thumb = image.GetThumbnailImage(image.Width / THUMBNAIL_PERCENTAGE, image.Height / THUMBNAIL_PERCENTAGE, () => false, IntPtr.Zero);
-                var thumbPath = Path.ChangeExtension(filePath, "thumb");
-                thumb.Save(thumbPath);
+                using (var image = Image.FromFile(filePath))
+                {
+                    // Thumbnail
+                    var thumb = image.GetThumbnailImage(image.Width / THUMBNAIL_PERCENTAGE, image.Height / THUMBNAIL_PERCENTAGE, () => false, IntPtr.Zero);
+                    thumb.Save(thumbFilePath);
+                }
 
                 var path = await _blobStorage.UploadImageAsync(MockUser.Username, folder, filePath);
-                path = await _blobStorage.UploadImageAsync(MockUser.Username, "_thumbnail", thumbPath);
+                var thumbPath = await _blobStorage.UploadImageAsync(MockUser.Username, "_thumbnail", thumbFilePath);
 
                 System.IO.File.Delete(filePath);
-                System.IO.File.Delete(thumbPath);
+                System.IO.File.Delete(thumbFilePath);
                 if (path == null)
 					throw new Exception("Upload to Azure failed.");
 

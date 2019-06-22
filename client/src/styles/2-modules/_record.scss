@@ -2,6 +2,10 @@
   width: auto !important;
 }
 
-.galleria {
+ngx-image-gallery {
+  z-index: 0 !important;
+}
+
+ngx-image-gallery .galleria {
   height: calc(100vh - 10rem);
 }
