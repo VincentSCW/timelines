@@ -29,7 +29,7 @@ namespace TimelinesAPI.Controllers
         public async Task<IActionResult> GetRecordsByYear([FromQuery]int year)
         {
             var records = await _recordTableStorageVaults.GetListAsync($"{MockUser.Username}_{year}");
-            return Ok(records.Select(x => _mapper.Map<RecordModel>(x)));
+            return Ok(records.OrderBy(x => x.Date).Select(x => _mapper.Map<RecordModel>(x)));
         }
 
         [HttpPost]
