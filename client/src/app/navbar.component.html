@@ -19,10 +19,10 @@
 			<div class="navbar-start">
 				<div class="navbar-item has-dropdown is-hoverable">
 					<a class="navbar-link">
-						回忆轴
+						<img src="../assets/zhou.png">
 					</a>
 					<div class="navbar-dropdown">
-						<a class="navbar-item is-tab" [class.is-active]="activeTopicKey == item.topicKey"
+						<a class="navbar-item" [class.is-active]="activeTopicKey == item.topicKey"
 							*ngFor="let item of timelines$ | async" [routerLink]="['/timeline/', item.topicKey]"
 							(click)="burgerActive = false">
 							<div class="level">
@@ -42,10 +42,10 @@
 				</div>
 				<div class="navbar-item has-dropdown is-hoverable">
 					<a class="navbar-link">
-						记录
+						<img src="../assets/ke.png">
 					</a>
 					<div class="navbar-dropdown">
-						<a class="navbar-item is-tab" *ngFor="let item of years" [routerLink]="['/records/', item]"
+						<a class="navbar-item" *ngFor="let item of years" [routerLink]="['/records/', item]"
 							(click)="burgerActive = false">
 							{{item}} 年
 						</a>
