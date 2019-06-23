@@ -111,6 +111,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   onAddMomentClicked() {
-    this.dialog.open(MomentEditorComponent);
+    this.dialog.open(MomentEditorComponent, { data: { topicKey: this.timeline.topicKey } });
   }
 }
