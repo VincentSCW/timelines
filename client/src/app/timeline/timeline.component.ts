@@ -21,11 +21,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
   timeline: Timeline;
   groupedMoments: GroupedMoments[];
   loaded: boolean;
-  editable$: Observable<boolean>;
+  editable: boolean;
   align: number = -1;
 
   private timelineSubscription: Subscription;
   private momentsSubscription: Subscription;
+  private editableSub: Subscription;
 
   private timeline$: Observable<Timeline>;
 
@@ -37,7 +38,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private router: Router) { 
     this.groupedMoments = new Array();
     this.loaded = false;
-    this.editable$ = authSvc.isLoggedIn$;
   }
 
   ngOnInit() {
@@ -59,11 +59,14 @@ export class TimelineComponent implements OnInit, OnDestroy {
         this.loaded = true;
       });
     });
+
+    this.editableSub = this.authSvc.isLoggedIn$.subscribe(l => this.editable = l);
   }
 
   ngOnDestroy() {
     if (!!this.timelineSubscription) { this.timelineSubscription.unsubscribe(); }
     if (!!this.momentsSubscription) { this.momentsSubscription.unsubscribe(); }
+    if (!!this.editableSub) { this.editableSub.unsubscribe(); }
   }
 
   onEdit(moment: Moment) {
@@ -105,5 +108,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
     if (confirm('确定要删除吗？')) {
       this.timelineService.deleteTimeline(this.timeline.topicKey).toPromise();
     }
+  }
+
+  onAddMomentClicked() {
+    this.dialog.open(MomentEditorComponent);
   }
 }

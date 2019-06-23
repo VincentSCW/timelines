@@ -3,12 +3,17 @@
     <div class="level">
       <div class="level-left">
         <h1 class="level-item title">{{timeline?.title}}</h1>
-        <a *ngIf="editable$ | async" matTooltip="Edit" class="level-item" (click)="onEditTimelineClicked()">
+        <a *ngIf="editable" matTooltip="Add Moment" class="level-item" (click)="onAddMomentClicked()">
+          <span class="icon is-small">
+            <i class="far fa-plus-square"></i>
+          </span>
+        </a>
+        <a *ngIf="editable" matTooltip="Edit" class="level-item" (click)="onEditTimelineClicked()">
           <span class="icon is-small">
             <i class="fa fa-edit"></i>
           </span>
         </a>
-        <a *ngIf="editable$ | async" matTooltip="Delete" class="level-item" (click)="onDeleteTimelineClicked()">
+        <a *ngIf="editable" matTooltip="Delete" class="level-item" (click)="onDeleteTimelineClicked()">
           <span class="icon is-small">
             <i class="fa fa-trash-alt"></i>
           </span>
@@ -55,7 +60,7 @@
         <div class="timeline-content">
           <p class="heading">{{moment.recordDate | date: 'MMMM dd'}}</p>
           <p [innerHTML]="moment.content"></p>
-          <div class="level is-mobile" *ngIf="editable$ | async">
+          <div class="level is-mobile" *ngIf="editable">
             <div class="level-left"></div>
             <div class="level-right">
               <a matTooltip="Edit" class="level-item" (click)="onEdit(moment)">
