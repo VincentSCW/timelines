@@ -34,7 +34,7 @@ namespace TimelinesAPI.Controllers
 				var response = await provider.GetAuthResponseAsync(model.Code);
 
 				// Only for one user here
-				if (response.UserInfo.Id != "9nLorlDUeP")
+				if (response.UserInfo.Id != "m04Ru5Jrhk")
 					throw new InvalidOperationException("Invalid user.");
 
 				UserEntity user = null;
