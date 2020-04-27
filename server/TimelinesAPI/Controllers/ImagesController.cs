@@ -14,8 +14,6 @@ namespace TimelinesAPI.Controllers
 	[Route("api/[controller]")]
 	public class ImagesController : Controller
 	{
-        private const int THUMBNAIL_PERCENTAGE = 10;
-
         private readonly BlobStorageVaults _blobStorage;
 
 		public ImagesController(BlobStorageVaults blobStorage)
@@ -49,6 +47,8 @@ namespace TimelinesAPI.Controllers
                 if (file == null)
                     file = HttpContext.Request.Form.Files[0];
 
+				var thumbnailDivideBy = GetThumbnailDivideBy(file.Length);
+
 				var localFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
 				var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "uploadedImage");
 				if (!Directory.Exists(directory))
@@ -72,7 +72,7 @@ namespace TimelinesAPI.Controllers
                 using (var image = Image.FromFile(filePath))
                 {
                     // Thumbnail
-                    var thumb = image.GetThumbnailImage(image.Width / THUMBNAIL_PERCENTAGE, image.Height / THUMBNAIL_PERCENTAGE, () => false, IntPtr.Zero);
+                    var thumb = image.GetThumbnailImage(image.Width / thumbnailDivideBy, image.Height / thumbnailDivideBy, () => false, IntPtr.Zero);
                     thumb.Save(thumbFilePath);
                 }
 
@@ -92,62 +92,18 @@ namespace TimelinesAPI.Controllers
 			}
 		}
 
-		#region getThumImage  
-		/**/
-		/// <summary>  
-		/// 生成缩略图  
-		/// </summary>  
-		/// <param name="sourceFile">原始图片文件</param>  
-		/// <param name="quality">质量压缩比</param>  
-		/// <param name="multiple">收缩倍数</param>  
-		/// <param name="outputFile">输出文件名</param>  
-		/// <returns>成功返回true,失败则返回false</returns>  
-		public static bool GetThumImage(String sourceFile, long quality, int multiple, String outputFile)
+		private static int GetThumbnailDivideBy(long size)
 		{
-			try
-			{
-				long imageQuality = quality;
-				using (Bitmap sourceImage = new Bitmap(sourceFile))
-				{
-					ImageCodecInfo myImageCodecInfo = GetEncoderInfo("image/jpeg");
-					Encoder myEncoder = Encoder.Quality;
-					EncoderParameters myEncoderParameters = new EncoderParameters(1);
-					EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, imageQuality);
-					myEncoderParameters.Param[0] = myEncoderParameter;
-					float xWidth = sourceImage.Width;
-					float yWidth = sourceImage.Height;
-					Bitmap newImage = new Bitmap((int) (xWidth / multiple), (int) (yWidth / multiple));
-					using (Graphics g = Graphics.FromImage(newImage))
-					{
-						g.DrawImage(sourceImage, 0, 0, xWidth / multiple, yWidth / multiple);
-					}
+			if (size > 2_000_000)
+				return 10;
 
-					newImage.Save(outputFile, myImageCodecInfo, myEncoderParameters);
-					return true;
-				}
-			}
-			catch
-			{
-				return false;
-			}
-		}
-		#endregion getThumImage  
+			if (size > 1_000_000)
+				return 5;
 
-		/**/
-		/// <summary>  
-		/// 获取图片编码信息  
-		/// </summary>  
-		private static ImageCodecInfo GetEncoderInfo(String mimeType)
-		{
-			int j;
-			ImageCodecInfo[] encoders;
-			encoders = ImageCodecInfo.GetImageEncoders();
-			for (j = 0; j < encoders.Length; ++j)
-			{
-				if (encoders[j].MimeType == mimeType)
-					return encoders[j];
-			}
-			return null;
+			if (size > 5_00_000)
+				return 2;
+
+			return 1;
 		}
 	}
 }
