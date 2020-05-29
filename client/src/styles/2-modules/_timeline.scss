@@ -8,3 +8,14 @@
 .editor-width-300 {
   min-width: 300px;
 }
+
+.left-dockbg {
+  position: fixed;
+  left: 0;
+  bottom: calc(100vh * 2/3);
+  z-index: 100;
+}
+
+.dock-img-block {
+  padding: .2rem .5rem !important;
+}
