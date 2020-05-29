@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { AuthProviderBase } from './auth-provider-base';
 import { LinkedInAuthProvider } from './linkedin-auth.provider';
 
@@ -77,7 +76,7 @@ export class AuthService {
     if (accessToken == null) {
       return false;
     } else {
-      return tokenNotExpired(null, accessToken);
+      return true;
     }
   }
 }
