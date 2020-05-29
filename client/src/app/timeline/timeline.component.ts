@@ -10,10 +10,12 @@ import { Moment, GroupedMoments } from '../models/moment.model';
 import { MomentEditorComponent } from './moment-editor/moment-editor.component';
 import { Timeline, PeriodGroupLevel } from '../models/timeline.model';
 import { AuthService } from '../services/auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-timeline',
-  templateUrl: './timeline.component.html'
+  templateUrl: './timeline.component.html',
+  providers: [DatePipe]
 })
 export class TimelineComponent implements OnInit, OnDestroy {
   timeline: Timeline;
@@ -25,6 +27,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   private timelineSubscription: Subscription;
   private momentsSubscription: Subscription;
   private editableSub: Subscription;
+  private routeSub: Subscription;
 
   private timeline$: Observable<Timeline>;
 
@@ -33,20 +36,33 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private title: Title,
-    private router: Router) { 
+    private router: Router,
+    private datePipe: DatePipe) { 
     this.groupedMoments = new Array();
     this.loaded = false;
   }
 
   ngOnInit() {
-    this.timeline$ = this.activatedRoute.paramMap.pipe(
-      switchMap((params: ParamMap) => this.timelineService.getTimeline(params.get('timeline')))
-    );
+    this.routeSub = this.activatedRoute.paramMap.subscribe((params) => {
+      this.timeline$ = this.timelineService.getTimeline(params.get('timeline'));
+      this.refresh();
+    })    
     
+    this.editableSub = this.authSvc.isLoggedIn$.subscribe(l => this.editable = l);
+  }
+
+  ngOnDestroy() {
+    if (!!this.timelineSubscription) { this.timelineSubscription.unsubscribe(); }
+    if (!!this.momentsSubscription) { this.momentsSubscription.unsubscribe(); }
+    if (!!this.editableSub) { this.editableSub.unsubscribe(); }
+    if (!!this.routeSub) { this.routeSub.unsubscribe(); }
+  }
+
+  refresh() {
     this.timelineSubscription = this.timeline$.subscribe((t) => {
       this.groupedMoments = new Array();
       this.loaded = false;
-      
+
       this.timeline = t;
       this.timelineService.activeTimeline = this.timeline;
       this.title.setTitle(`${t.title} | 时间轴`);
@@ -58,13 +74,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.editableSub = this.authSvc.isLoggedIn$.subscribe(l => this.editable = l);
-  }
-
-  ngOnDestroy() {
-    if (!!this.timelineSubscription) { this.timelineSubscription.unsubscribe(); }
-    if (!!this.momentsSubscription) { this.momentsSubscription.unsubscribe(); }
-    if (!!this.editableSub) { this.editableSub.unsubscribe(); }
   }
 
   onEdit(moment: Moment) {
@@ -80,13 +89,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
     let groupKey: string;
     switch (level) {
       case PeriodGroupLevel.byDay:
-        groupKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });  
+        groupKey = this.datePipe.transform(date, 'MMMM dd, yyyy');
         break;
       case PeriodGroupLevel.byMonth:
-        groupKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        groupKey = this.datePipe.transform(date, 'MMMM yyyy');
         break;
       case PeriodGroupLevel.byYear:
-        groupKey = date.toLocaleDateString('en-US', { year: 'numeric' });  
+        groupKey = this.datePipe.transform(date, 'yyyy');
         break;
     }
 
