@@ -35,8 +35,8 @@
 							</div>
 						</a>
 						<hr class="navbar-divider" *ngIf="editable">
-						<a class="navbar-item" routerLink="/timeline/create" *ngIf="editable">
-							Add New
+						<a class="navbar-item" (click)="createNew()" *ngIf="editable">
+							Create New Timeline
 						</a>
 					</div>
 				</div>
@@ -51,7 +51,7 @@
 						</a>
 						<hr class="navbar-divider" *ngIf="editable">
 						<a class="navbar-item" (click)="onAddNewRecordClicked()" *ngIf="editable">
-							Add New
+							Add New Record
 						</a>
 					</div>
 				</div>

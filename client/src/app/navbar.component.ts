@@ -1,12 +1,13 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { MomentEditorComponent } from './timeline/moment-editor/moment-editor.component';
 import { Observable ,  Subscription } from 'rxjs';
-import { Timeline } from './models/timeline.model';
+import { Timeline, PeriodGroupLevel } from './models/timeline.model';
 import { TimelineService } from './services/timeline.service';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RecordEditorComponent } from './record/record-editor/record-editor.component';
+import { TimelineEditorComponent } from './timeline/timeline-editor/timeline-editor.component';
 
 @Component({
 	selector: 'app-navbar',
@@ -31,7 +32,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.timelines$ = this.timelineService.getTimelines();
+		this.refresh();
 		this.timelineSub = this.timelineService.activeTimeline$.subscribe(t => this.activeTopicKey = t.topicKey);
 		this.editableSub = this.authSvc.isLoggedIn$.subscribe(l => this.editable = l);
 	}
@@ -47,9 +48,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
 	}
 
 	getYears() {
-		var today = new Date();
-		for (var i = 2017; i <= today.getFullYear(); i++) {
+		const today = new Date();
+		for (let i = 2017; i <= today.getFullYear(); i++) {
 			this.years.push(i);
 		}
+	}
+
+	refresh() {
+		this.timelines$ = this.timelineService.getTimelines();
+	}
+
+	createNew() {
+		this.dialog.open(TimelineEditorComponent, { data: { periodGroupLevel: PeriodGroupLevel.byDay } })
+			.afterClosed().toPromise().then(() => this.refresh());
 	}
 }

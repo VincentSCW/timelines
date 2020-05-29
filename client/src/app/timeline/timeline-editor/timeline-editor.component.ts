@@ -1,10 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Component, OnInit, Inject } from '@angular/core';
 
-import { Timeline, ProtectLevel, PeriodGroupLevel } from '../../models/timeline.model';
+import { Timeline } from '../../models/timeline.model';
 import { TimelineService } from '../../services/timeline.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -12,30 +10,19 @@ import { TimelineService } from '../../services/timeline.service';
   templateUrl: './timeline-editor.component.html'
 })
 export class TimelineEditorComponent implements OnInit {
-  model: Timeline = {
-    topicKey: '',
-    protectLevel: ProtectLevel.public,
-    periodGroupLevel: PeriodGroupLevel.any,
-    isCompleted: false,
-    startTime: new Date()
-  };
   constructor(private timelineService: TimelineService,
-    private activatedRoute: ActivatedRoute) {  }
+    private dialogRef: MatDialogRef<TimelineEditorComponent>,
+    @Inject(MAT_DIALOG_DATA) public model: Timeline) { }
 
   ngOnInit() {
-    const editEntity = this.activatedRoute.snapshot.paramMap.get('timeline');
-    if (editEntity != null) {
-      this.timelineService.getTimeline(editEntity)
-        .toPromise().then(t => this.model = t);
-    }
   }
 
   onSubmit(value: Timeline) {
     this.timelineService.insertOrReplaceTimeline(value).toPromise()
-      .then(t => { alert('Done'); });
+      .then(t => { this.dialogRef.close(true) });
   }
 
   onCancel() {
-    
+    this.dialogRef.close(false);
   }
 }
