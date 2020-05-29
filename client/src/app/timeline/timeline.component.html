@@ -42,13 +42,13 @@
       </header>
       <div class="timeline-item" *ngFor="let moment of mGroup.moments">
         <div class="timeline-marker"></div>
-        <div class="timeline-content">
+        <div class="timeline-content" *ngIf="!moment.editMode; else editTemplate">
           <p class="heading">{{moment.recordDate | date: 'MMMM dd'}}</p>
           <p [innerHTML]="moment.content"></p>
           <div class="level is-mobile" *ngIf="editable">
             <div class="level-left"></div>
             <div class="level-right">
-              <a matTooltip="Edit" class="level-item" (click)="onEdit(moment)">
+              <a matTooltip="Edit" class="level-item" (click)="moment.editMode = true">
                 <span class="icon is-small">
                   <i class="fa fa-edit"></i>
                 </span>
@@ -61,6 +61,12 @@
             </div>
           </div>
         </div>
+
+        <ng-template #editTemplate>
+          <div class="timeline-content">
+            <app-moment-editor [model]="moment" (complete)="moment.editMode = false"></app-moment-editor>
+          </div>
+        </ng-template>
       </div>
     </div>
     <div class="timeline" [class.is-centered]="align==0" [class.is-rtl]="align==1">

@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
-import { Observable ,  Subscription ,  BehaviorSubject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable ,  Subscription } from 'rxjs';
 
 import { TimelineService } from '../services/timeline.service';
 import { Moment, GroupedMoments } from '../models/moment.model';
@@ -11,6 +10,7 @@ import { MomentEditorComponent } from './moment-editor/moment-editor.component';
 import { Timeline, PeriodGroupLevel } from '../models/timeline.model';
 import { AuthService } from '../services/auth.service';
 import { DatePipe } from '@angular/common';
+import { TimelineEditorComponent } from './timeline-editor/timeline-editor.component';
 
 @Component({
   selector: 'app-timeline',
@@ -76,12 +76,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   }
 
-  onEdit(moment: Moment) {
-    this.dialog.open(MomentEditorComponent, {data: moment});
-  }
-
   onDelete(moment: Moment) {
-    this.timelineService.deleteMoment(moment.topicKey, moment.recordDate).toPromise();
+    this.timelineService.deleteMoment(moment.topicKey, moment.recordDate).toPromise()
+      .then(() => this.refresh());
   }
 
   groupByLevel(level: PeriodGroupLevel, m: Moment) {
@@ -108,7 +105,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   onEditTimelineClicked() {
-    this.router.navigateByUrl(`timeline/${this.timeline.topicKey}/edit`);
+    this.dialog.open(TimelineEditorComponent, { data: this.timeline })
+      .afterClosed().toPromise().then(() => this.refresh());
   }
 
   onDeleteTimelineClicked() {
@@ -118,6 +116,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   onAddMomentClicked() {
-    this.dialog.open(MomentEditorComponent, { data: { topicKey: this.timeline.topicKey } });
+    this.dialog.open(MomentEditorComponent, { data: { topicKey: this.timeline.topicKey } })
+      .afterClosed().toPromise().then(() => this.refresh());;
   }
 }
