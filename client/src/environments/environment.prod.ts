@@ -3,7 +3,7 @@ export const environment = {
   apiServerUrl: '',
   state: 'BCEeFWf45A53sdfaef434',
   linkedIn: {
-    clientId: '81f162puj2rcos',
-    scope: 'r_liteprofile'
+    clientId: '81x1oimxi0mlzy',
+    scope: 'r_basicprofile'
   },
 };

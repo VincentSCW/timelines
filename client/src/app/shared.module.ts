@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxEditorModule } from 'ngx-editor';
 import { NgxMasonryModule } from 'ngx-masonry';
 
 import { MaterialModule } from './material.module';
@@ -17,12 +16,10 @@ import { ControlsModule } from './controls/controls.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    NgxEditorModule,
     FormsModule,
     HttpClientModule,
     MaterialModule,
     BrowserAnimationsModule,
-    NgxEditorModule,
     ControlsModule,
     NgxMasonryModule
   ],
@@ -32,12 +29,10 @@ import { ControlsModule } from './controls/controls.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    NgxEditorModule,
     FormsModule,
     HttpClientModule,
     MaterialModule,
     BrowserAnimationsModule,
-    NgxEditorModule,
     ControlsModule,
     NgxMasonryModule
   ]
