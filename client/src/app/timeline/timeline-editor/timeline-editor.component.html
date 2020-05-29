@@ -9,7 +9,7 @@
           <input matInput #inputKey required maxlength="20" name="topicKey" [(ngModel)]="model.topicKey"
             placeholder="Key" />
           <mat-hint align="end">{{inputKey.value?.length || 0}}/20</mat-hint>
-          <mat-error *ngIf="model.inputKey == null || model.inputKey == ''">Key is required.</mat-error>
+          <mat-error *ngIf="model.topicKey == null || model.topicKey == ''">Key is required.</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -19,7 +19,7 @@
           <input matInput required #inputTitle maxlength="30" name="title" [(ngModel)]="model.title"
             placeholder="Title">
           <mat-hint align="end">{{inputTitle.value?.length || 0}}/30</mat-hint>
-          <mat-error *ngIf="model.inputTitle == null || model.inputTitle == ''">Title is required.</mat-error>
+          <mat-error *ngIf="model.title == null || model.title == ''">Title is required.</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -48,6 +48,13 @@
             <mat-option value="ByYear">By Year</mat-option>
           </mat-select>
           <mat-hint>Records will be grouped by period group.</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <mat-form-field class="is-fullwidth">
+          <input matInput required name="startTime" [(ngModel)]="model.startTime" placeholder="Start Time">
         </mat-form-field>
       </div>
     </div>
