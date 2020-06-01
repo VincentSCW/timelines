@@ -19,7 +19,7 @@ export class TimelineEditorComponent implements OnInit {
 
   onSubmit(value: Timeline) {
     this.timelineService.insertOrReplaceTimeline(value).toPromise()
-      .then(t => { this.dialogRef.close(true) });
+      .then(t => this.dialogRef.close(true));
   }
 
   onCancel() {

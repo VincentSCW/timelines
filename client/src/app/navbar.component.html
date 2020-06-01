@@ -36,7 +36,7 @@
 						</a>
 						<hr class="navbar-divider" *ngIf="editable">
 						<a class="navbar-item" (click)="createNew()" *ngIf="editable">
-							Create New Timeline
+							新建时间轴
 						</a>
 					</div>
 				</div>
@@ -51,7 +51,7 @@
 						</a>
 						<hr class="navbar-divider" *ngIf="editable">
 						<a class="navbar-item" (click)="onAddNewRecordClicked()" *ngIf="editable">
-							Add New Record
+							新建记录
 						</a>
 					</div>
 				</div>
@@ -66,9 +66,14 @@
 						<i class="fab fa-lg fa-github"></i>
 					</span>
 				</a>
-				<a class="navbar-item" routerLink="/account/login">
+				<a class="navbar-item" *ngIf="!editable" (click)="signin()" matTootip="Signin">
 					<span class="icon">
 						<i class="fas fa-lg fa-sign-in-alt"></i>
+					</span>
+				</a>
+				<a class="navbar-item" *ngIf="editable" (click)="signout()" matTooptip="Signout">
+					<span class="icon">
+						<i class="fas fa-lg fa-sign-out-alt"></i>
 					</span>
 				</a>
 			</div>

@@ -22,7 +22,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   groupedMoments: GroupedMoments[];
   loaded: boolean;
   editable: boolean;
-  align: number = -1;
+  align = -1;
 
   private timelineSubscription: Subscription;
   private momentsSubscription: Subscription;
@@ -46,8 +46,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.routeSub = this.activatedRoute.paramMap.subscribe((params) => {
       this.timeline$ = this.timelineService.getTimeline(params.get('timeline'));
       this.refresh();
-    })    
-    
+    });
+
     this.editableSub = this.authSvc.isLoggedIn$.subscribe(l => this.editable = l);
   }
 
@@ -74,6 +74,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
       });
     });
 
+  }
+
+  onEdit(moment: Moment) {
+    this.dialog.open(MomentEditorComponent, { data: moment })
+      .afterClosed().toPromise().then(() => this.refresh());
   }
 
   onDelete(moment: Moment) {
@@ -117,6 +122,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   onAddMomentClicked() {
     this.dialog.open(MomentEditorComponent, { data: { topicKey: this.timeline.topicKey } })
-      .afterClosed().toPromise().then(() => this.refresh());;
+      .afterClosed().toPromise().then(() => this.refresh());
   }
 }

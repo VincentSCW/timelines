@@ -1,6 +1,6 @@
 export interface Moment {
     topicKey: string;
-    recordDate: Date;
+    recordDate?: Date;
     content?: string;
 }
 
